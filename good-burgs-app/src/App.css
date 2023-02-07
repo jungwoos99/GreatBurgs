@@ -19,3 +19,67 @@
 .navbar-heading {
   font-size: 4rem;
 }
+
+.menu-container {
+  display: flex;
+  margin: 2rem;
+  width: 90%;
+  border: solid .25rem black;
+  border-radius: 8px;
+}
+
+.food-card {
+  display: flex;
+  border: solid .4rem red;
+  flex-direction: column;
+  padding: 1rem;
+  margin: .4rem;
+  border-radius: 10px;
+}
+
+.food-card-purchase-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.food-card-price-container {
+  display: flex;
+  background-color: red;
+  border-radius: 20%;
+  padding: .3rem;
+  margin-top: 1rem;
+  color: white;
+  height: 3rem;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.food-card-price {
+  padding: 0;
+  margin: 0;
+}
+
+.food-card-redeem-container {
+  display: flex;
+  background-color: green;
+  border-radius: 20%;
+  padding: .3rem;
+  margin-top: 1rem;
+  color: white;
+  height: 3rem;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.fooc-card-redeem {
+  padding: 0;
+  margin: 0;
+}
+
+.food-card-redeem-container:hover, .food-card-price-container:hover {
+  transition: .3s;
+  transform: translateY(-4px);
+}
