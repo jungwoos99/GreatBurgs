@@ -14,6 +14,7 @@ export default function FoodCard(props) {
         currency: 'USD',
     });
 
+    //eslint-disable-next-line
     useEffect(() => setPoints(account.availablePoints,[]))
 
     return (

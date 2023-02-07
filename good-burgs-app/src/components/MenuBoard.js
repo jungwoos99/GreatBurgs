@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux';
-import { decreasePoints, increasePoints } from '../features/menu/menuSlice';
 import FoodCard from './FoodCard';
 
 export default function MenuBoard() {
-    const dispatch = useDispatch();
 
     const [food, setFood] = useState([]);
 
