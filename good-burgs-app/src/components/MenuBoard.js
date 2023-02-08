@@ -24,8 +24,11 @@ export default function MenuBoard() {
     useEffect(()=> fillFoodList(), [])
 
     return (
-        <div className='menu-container'>
-            {food}
+        <div className='menu'>
+            <h2>Tom's Specials</h2>
+            <div className='menu-container'>
+                {food}
+            </div>
         </div>
     )
 }

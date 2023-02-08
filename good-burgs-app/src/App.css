@@ -9,6 +9,8 @@
 .navbar {
   width: 100vw;
   display: flex;
+  padding: 0;
+  margin: 0;
   justify-content: center;
   align-items: center;
   background-color: red;
@@ -17,15 +19,39 @@
 }
 
 .navbar-heading {
+  grid-area: "header";
   font-size: 4rem;
+  margin: 0;
+  padding: 0;
+}
+
+/* 
+.navbar-profile-img{ 
+  height: 4rem;
+  width: 4rem;
+  border-radius: 100%;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
+} */
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  margin: 0;
+  padding: 0;
 }
 
 .menu-container {
   display: flex;
   margin: 2rem;
-  width: 90%;
+  width: 100%;
   border: solid .25rem black;
   border-radius: 8px;
+  overflow-x: scroll;
 }
 
 .food-card {
@@ -37,6 +63,11 @@
   border-radius: 10px;
 }
 
+.food-card-img {
+  height: 12rem;
+  width: 12em;
+}
+
 .food-card-purchase-options {
   display: flex;
   justify-content: space-between;
@@ -46,11 +77,11 @@
 .food-card-price-container {
   display: flex;
   background-color: red;
-  border-radius: 20%;
+  border-radius: 10px;
   padding: .3rem;
   margin-top: 1rem;
   color: white;
-  height: 3rem;
+  height: 2rem;
   justify-content: center;
   align-items: center;
   cursor: pointer;
@@ -64,11 +95,11 @@
 .food-card-redeem-container {
   display: flex;
   background-color: green;
-  border-radius: 20%;
+  border-radius: 10px;
   padding: .3rem;
   margin-top: 1rem;
   color: white;
-  height: 3rem;
+  height: 2rem;
   justify-content: center;
   align-items: center;
   cursor: pointer;

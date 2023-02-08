@@ -31,6 +31,7 @@ export default function FoodCard(props) {
                     </div>
                 }
             </div>
+            {/* <h4>{points}</h4> */}
         </div> 
     )
 }
