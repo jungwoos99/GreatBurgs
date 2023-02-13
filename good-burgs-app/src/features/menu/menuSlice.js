@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    availablePoints: 100,
+    availablePoints: 0,
 }
 
 const menuSlice = createSlice({
@@ -12,10 +12,12 @@ const menuSlice = createSlice({
             state.availablePoints += action.payload;
         }, decreasePoints: (state, action) => {
             state.availablePoints -= action.payload;
+        }, setStorePoints: (state, action) => {
+            state.availablePoints = action.payload
         }
     }
 })
 
-export const {increasePoints, decreasePoints} = menuSlice.actions
+export const {increasePoints, decreasePoints, setPoints: setStorePoints} = menuSlice.actions
 
 export default menuSlice.reducer

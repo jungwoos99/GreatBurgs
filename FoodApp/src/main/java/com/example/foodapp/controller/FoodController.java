@@ -2,8 +2,10 @@ package com.example.foodapp.controller;
 
 import com.example.foodapp.model.Food;
 import com.example.foodapp.repository.FoodRepository;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ public class FoodController {
 
     public FoodController(FoodRepository foodRepository) {this.foodRepository = foodRepository;}
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Food>> getAllFood() {
         try {
             List<Food> allFood = new ArrayList<>();
@@ -47,7 +49,7 @@ public class FoodController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<Food> createFood(@RequestBody Food food) {
         try {
             Food newFood = foodRepository

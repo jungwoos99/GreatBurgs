@@ -9,6 +9,9 @@ export default function App() {
     <div className='app'>
       <NavBar/>
       <MenuBoard/>
+      <div>
+        
+      </div>
     </div>
   )
 }

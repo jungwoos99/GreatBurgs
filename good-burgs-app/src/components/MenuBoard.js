@@ -6,7 +6,7 @@ export default function MenuBoard() {
     const [food, setFood] = useState([]);
 
     function fillFoodList() {
-        fetch("http://localhost:8080/api/food")
+        fetch("http://localhost:8080/api/food/all")
         .then(res => res.json())
         .then(data => setFood(data.map((food) => 
             <FoodCard
@@ -25,7 +25,6 @@ export default function MenuBoard() {
 
     return (
         <div className='menu'>
-            <h2>Tom's Specials</h2>
             <div className='menu-container'>
                 {food}
             </div>
