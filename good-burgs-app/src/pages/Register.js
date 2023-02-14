@@ -1,0 +1,88 @@
+import axios from 'axios'
+import React, { useState } from 'react'
+
+export default function Register() {
+
+    const [registerData, setRegisterData] = useState(
+        {
+            firstName: "",
+            lastName: "",
+            password: "",
+            confirmPassword: "",
+            email: ""
+        }
+    )
+
+    console.log(registerData)
+
+    function handleChange(event) { 
+        console.log(event)
+        const {name, value} = event.target
+        setRegisterData(prevFormData => {
+            return {
+                ...prevFormData,
+                [name]: value
+            }
+        })
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault()
+        if(registerData.confirmPassword === registerData.password) {
+            axios.post("http://localhost:8080/api/v1/auth/register", {
+                firstName: registerData.firstName,
+                lastName: registerData.lastName,
+                email: registerData.email,
+                password: registerData.password
+            })
+        } else {
+            alert("Passwords do not match!")
+        }
+    }
+
+    return (
+        <div className='register-form-wrapper'>
+            <h1 style={{margin:0}}>Register An Account</h1>
+            <div className='register-form'>
+                <form className="form-fields">
+                    <input
+                        type={"text"}
+                        placeholder={"First Name"}
+                        onChange={handleChange}
+                        name={"firstName"}
+                        value={registerData.firstName}
+                    />
+                    <input
+                        type={"text"}
+                        placeholder={"Last Name"}
+                        onChange={handleChange}
+                        name={"lastName"}
+                        value={registerData.lastName}
+                    />
+                    <input
+                        type={"text"}
+                        placeholder={"Email"}
+                        onChange={handleChange}
+                        name={"email"}
+                        value={registerData.email}
+                    />
+                    <input
+                        type={"password"}
+                        placeholder={"Password"}
+                        onChange={handleChange}
+                        name={"password"}
+                        value={registerData.password}
+                    />
+                    <input
+                        type={"password"}
+                        placeholder={"Confirm Password"}
+                        onChange={handleChange}
+                        name={"confirmPassword"}
+                        value={registerData.confirmPassword}
+                    />
+                    <button className='register-button' onClick={handleSubmit} type="submit">Register</button>
+                </form>
+            </div>
+        </div>
+    )
+}

@@ -1,4 +1,4 @@
-package com.example.foodapp.user;
+package com.example.foodapp.model;
 
 public enum Role {
 

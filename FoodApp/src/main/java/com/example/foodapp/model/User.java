@@ -1,5 +1,6 @@
-package com.example.foodapp.user;
+package com.example.foodapp.model;
 
+import com.example.foodapp.model.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

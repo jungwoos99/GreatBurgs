@@ -35,11 +35,18 @@
   justify-content: center;
 } */
 
+.menu-page {
+  display: flex;
+  justify-content: center;
+}
+
 .menu {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  justify-self: center;
+  align-self: center;
   width: 90%;
   margin: 0;
   padding: 0;
@@ -113,4 +120,48 @@
 .food-card-redeem-container:hover, .food-card-price-container:hover {
   transition: .3s;
   transform: translateY(-4px);
+}
+
+.login-form, .register-form{
+  align-self: center;
+  margin: 2rem;
+  display: flex;
+  border: .25rem solid red;
+  border-radius: 10px;
+  justify-content: center;
+  width: 20rem;
+}
+
+.register-form-wrapper, .login-form-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.link-nav {
+  display: flex;
+  background-color: white;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-fields > input {
+  border: solid .2rem;
+  margin: 1rem;
+  border-radius: 5px;
+  text-indent: .3rem;
+  height: 2rem;
+}
+
+.register-button {
+  background-color: green;
+  border: solid .2rem;
+  margin: 1rem;
+  height: 2.5rem;
+  border-radius: 9px;
+  color: white;
+  cursor: pointer;
 }

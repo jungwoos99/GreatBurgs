@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    availablePoints: 0,
+    availablePoints: 0
 }
 
 const menuSlice = createSlice({

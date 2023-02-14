@@ -1,5 +1,6 @@
-package com.example.foodapp.user;
+package com.example.foodapp.repository;
 
+import com.example.foodapp.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

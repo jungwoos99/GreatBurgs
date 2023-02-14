@@ -1,15 +1,17 @@
-package com.example.foodapp.auth;
+package com.example.foodapp.controller;
 
+import com.example.foodapp.auth.AuthenticationRequest;
+import com.example.foodapp.auth.AuthenticationResponse;
+import com.example.foodapp.auth.AuthenticationService;
+import com.example.foodapp.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class AuthenticationController {
 
     private final AuthenticationService service;
@@ -21,7 +23,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.register(registerRequest));
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest authenticationRequest
     ) {
