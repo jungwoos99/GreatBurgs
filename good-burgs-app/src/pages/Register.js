@@ -1,7 +1,12 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import ReactModal from 'react-modal'
 
 export default function Register() {
+
+    const navigate = useNavigate()
+    const [modalIsOpen, setModalIsOpen] = useState(false)
 
     const [registerData, setRegisterData] = useState(
         {
@@ -12,8 +17,6 @@ export default function Register() {
             email: ""
         }
     )
-
-    console.log(registerData)
 
     function handleChange(event) { 
         console.log(event)
@@ -33,15 +36,34 @@ export default function Register() {
                 firstName: registerData.firstName,
                 lastName: registerData.lastName,
                 email: registerData.email,
-                password: registerData.password
-            })
+                password: registerData.password})
+            .then(res => checkStatus(res.status))
         } else {
             alert("Passwords do not match!")
         }
     }
 
+    function handleNavigate(event) {
+        let path = "../login"
+        navigate(path)
+    }
+
+    function toggleModal() {
+        setModalIsOpen(prevModalIsOpen => !prevModalIsOpen)
+    }
+    
+    function checkStatus(status) {
+        if(status === 200) {
+            toggleModal()
+            setTimeout(()=> handleNavigate(), 2000)
+        }
+    }
+
     return (
         <div className='register-form-wrapper'>
+            <ReactModal isOpen={modalIsOpen}>
+                <h1>Success! You can now login with your email and your password</h1>
+            </ReactModal>
             <h1 style={{margin:0}}>Register An Account</h1>
             <div className='register-form'>
                 <form className="form-fields">

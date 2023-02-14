@@ -143,6 +143,10 @@
   background-color: white;
 }
 
+.link-nav > ul > li {
+  margin: 1rem;
+}
+
 .form-fields {
   display: flex;
   flex-direction: column;
@@ -156,7 +160,7 @@
   height: 2rem;
 }
 
-.register-button {
+.register-button, .login-button {
   background-color: green;
   border: solid .2rem;
   margin: 1rem;
