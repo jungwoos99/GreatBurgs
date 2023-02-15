@@ -1,7 +1,6 @@
 package com.example.foodapp.model;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 
 @Entity

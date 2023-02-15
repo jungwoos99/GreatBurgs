@@ -1,23 +1,13 @@
-import React, { useState } from "react";
-import ReactModal from "react-modal";
+import React from "react";
+import { useSelector } from "react-redux";
 
 export default function Home() {
-    const [modalIsOpen, setModalIsOpen] = useState(false)
 
-    function toggleModal() {
-        setModalIsOpen(prevModalIsOn => !prevModalIsOn)
-    }
+    const userToken = useSelector(state => state.user.token)
 
     return (
         <>
-            <h1>Home Page</h1>
-            <div onClick={() => toggleModal()}>Click Me!</div>
-            <ReactModal
-                isOpen={modalIsOpen}
-                portalClassName="modal"
-            >
-
-            </ReactModal>
+            <h1>Token: {userToken}</h1>
         </>
     )
 }
