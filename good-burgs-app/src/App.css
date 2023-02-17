@@ -38,6 +38,8 @@
 .menu-page {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .menu {
@@ -52,13 +54,18 @@
   padding: 0;
 }
 
+.menu-user-points {
+  margin: 0;
+}
+
 .menu-container {
   display: flex;
   margin: 2rem;
   width: 100%;
-  border: solid .25rem black;
+  border: solid .25rem ;
   border-radius: 8px;
-  overflow-x: scroll;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .food-card {
@@ -66,13 +73,16 @@
   border: solid .4rem red;
   flex-direction: column;
   padding: 1rem;
-  margin: .4rem;
+  margin: .2rem;
   border-radius: 10px;
+  max-width: 10rem;
+  justify-content: space-between;
 }
 
 .food-card-img {
-  height: 12rem;
-  width: 12em;
+  align-self: center;
+  height: 10rem;
+  width: 10em;
 }
 
 .food-card-purchase-options {
@@ -86,9 +96,9 @@
   background-color: red;
   border-radius: 10px;
   padding: .3rem;
-  margin-top: 1rem;
   color: white;
   height: 2rem;
+  width: 4rem;
   justify-content: center;
   align-items: center;
   cursor: pointer;
@@ -104,9 +114,9 @@
   background-color: green;
   border-radius: 10px;
   padding: .3rem;
-  margin-top: 1rem;
   color: white;
   height: 2rem;
+  width: 4rem;
   justify-content: center;
   align-items: center;
   cursor: pointer;

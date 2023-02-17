@@ -7,8 +7,11 @@ import com.example.foodapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +38,8 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationResponse) {
+        Supplier<UsernameNotFoundException> usernameNotFoundExceptionSupplier = () ->
+                new UsernameNotFoundException("User was not found in database, please register an account.");
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationResponse.getEmail(),
@@ -42,7 +47,7 @@ public class AuthenticationService {
                 )
         );
         var user = repository.findByEmail(authenticationResponse.getEmail())
-                .orElseThrow();
+                .orElseThrow(usernameNotFoundExceptionSupplier);
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

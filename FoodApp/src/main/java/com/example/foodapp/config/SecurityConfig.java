@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**", "/api/food/save", "/api/food/all", "/api/user")
+                .requestMatchers("/api/v1/auth/**", "/api/food/save", "/api/food/all", "/api/user", "/api/foodType")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -34,7 +34,8 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .rememberMe().key("secret").tokenValiditySeconds(86400);
 
         return httpSecurity.build();
     }

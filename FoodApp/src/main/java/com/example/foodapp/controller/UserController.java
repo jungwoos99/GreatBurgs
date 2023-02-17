@@ -7,21 +7,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     UserRepository userRepository;
 
     public UserController(UserRepository userRepository) {this.userRepository = userRepository;}
 
-    @GetMapping
+    @PostMapping
     public ResponseEntity<User> getUserInfo(@RequestParam String email) {
         Optional<User> user = userRepository.findByEmail(email);
 
         if(user.isPresent()) {
-            return new ResponseEntity<>(user.get(), HttpStatus.FOUND);
+            return new ResponseEntity<>(user.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

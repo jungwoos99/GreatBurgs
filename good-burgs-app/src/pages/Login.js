@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserLoginStatus, setUserPoints, setUserName, setUserToken } from "../features/user/userSlice";
+import { setUserLoginStatus, setUserToken } from "../features/user/userSlice";
 
 export default function Login() {
     const userInfo = useSelector(state => state.user)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const [successfulLogin, setSuccessfulLogin] = useState(true)
     const [loginForm, setLoginForm] = useState({
@@ -15,6 +16,7 @@ export default function Login() {
     })
 
     function handleChange(event) {
+        // console.log("Change")
         const {name, value} = event.target
         setLoginForm(prevLoginFormData => {
             return ({
@@ -29,34 +31,59 @@ export default function Login() {
         event.preventDefault()
         axios.post("http://localhost:8080/api/v1/auth/login", loginForm)
             .then(res => checkStatus(res))
-            .catch((error) => checkStatus(error))
+            .catch(function (error) {
+                if(error.response) {
+                    // console.log(error.response)
+                    checkStatus(error.response)
+                }
+            })
     }
 
-    function checkStatus(status) {
-        console.log(status)
-        let userLogIn = status.config.data.split(":")[1].replace("\"", "")
-        let userEmail = userLogIn.split(",")[0].replace("\"", "")
+    function checkStatus(response) {
+        // console.log(response)
+        let userLogIn = response.config ? response.config.data.split(":")[1].replace("\"", "") : null
+        let userEmail = userLogIn != null ? userLogIn.split(",")[0].replace("\"", "") : null
+        let status;
 
-        if(status.status === 200) {
+        if(response.status) {
+            status = response.status
+        }
+
+        if(status === 200) {
             alert("Success!")
             dispatch(setUserLoginStatus())
             getUserName(userEmail)
-            dispatch(setUserToken(status.data.token))
-        } else if (status.response.status === 403) {
+            dispatch(setUserToken(response.data.token))
+
+            // localStorage.setItem("token", status.data.token)
+            localStorage.setItem("email", userEmail)
+            handleNaviagte()
+        } else if (status === 403) {
             setSuccessfulLogin(false)
         }
     }
 
     function getUserName(email) {
         // const headers = {headers: {'Authorization' : userInfo.token}}
-        fetch("http://localhost:8080/api/user?email=" + email)
-            .then(res => res.json())
-            .then(data => setUserInfo(data))
+        // const headers = {headers:{'Authorization' : "Bearer " + localStorage.getItem("token")}}
+        const userBody = {email: localStorage.getItem("email")}
+    
+        fetch({
+            url: "http://localhost:8080/api/user",
+            // headers: headers,
+            body: userBody
+        })
+            .then(res => console.log(res.json()))
     }
 
-    function setUserInfo(userData) {
-        dispatch(setUserName(userData.firstName))
-        dispatch(setUserPoints(userData.points))
+    // function setUserInfo(userData) {
+    //     dispatch(setUserName(userData.firstName))
+    //     dispatch(setUserPoints(userData.points))
+    // }
+
+    function handleNaviagte(event) {
+        let path = "../"
+        navigate(path)
     }
 
     return (
@@ -92,7 +119,9 @@ export default function Login() {
             </div>}
 
             {/* UI FOR LOGGED IN USER */}
-            {userInfo.loggedIn && <h1>Welcome, {userInfo.userName}. You have {userInfo.userPoints} points</h1>}
+            {userInfo.loggedIn && 
+                <h1>You are now logged in!</h1>
+            }
         </div>
     )
 }
