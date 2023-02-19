@@ -1,33 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserName } from "../features/user/userSlice";
+import { setUserName, setUserId, setUserPoints } from "../features/user/userSlice";
 // import { useSelector } from "react-redux";
 
 export default function Home() {
 
     const dispatch = useDispatch()
     const userInfo = useSelector(state => state.user)
-    console.log(userInfo)
-    const [name, setName] = useState("")
+    // console.log(userInfo)
 
-    function getUserName() {
-        const userEmail = localStorage.getItem("email")
-        const userBody = {email: userEmail}
+    function getUserInfo() {
+        const userEmail = userInfo.email
         axios.post("http://localhost:8080/api/user?email=" + userEmail)
-            .then(res => setName(res.data.firstName))
+            .then(res => setUserInfo(res.data))
     }
 
-    function setStateUserName() {
-        dispatch(setUserName(name.data.firstName))
+    function setUserInfo(data) {
+        console.log(data)
+        dispatch(setUserName(data.firstName))
+        dispatch(setUserId(data.id))
+        dispatch(setUserPoints(data.points))
     }
 
-    useEffect(() => getUserName(), [])
-
+    useEffect(() => getUserInfo())
+    // console.log("user id: " + userInfo.userId)
 
     return (
         <>
-            <h1 style={{marginLeft:"3.4rem"}}>Welcome, {name}.</h1>
+            <h1 style={{marginLeft:"3.4rem"}}>Welcome, {userInfo.userName}.</h1>
         </>
     )
 }

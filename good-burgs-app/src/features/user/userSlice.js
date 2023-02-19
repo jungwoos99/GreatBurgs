@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+    userId: "",
     userName: "",
-    email: "",
+    email: localStorage.getItem("email"),
+    password: localStorage.getItem("password"),
     userPoints: 0,
     userRole: "",
     loggedIn: false,
@@ -13,8 +15,11 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setUserLoginStatus: (state) => {
-            state.loggedIn = true
+        setUserId: (state, action) => {
+            state.userId = action.payload
+        },
+        setUserLoginStatus: (state, action) => {
+            state.loggedIn = action.payload
         }, 
         setUserName: (state, action) => {
             state.userName = action.payload
@@ -30,10 +35,16 @@ const userSlice = createSlice({
         },
         increaseUserPoints: (state, action) => {
             state.userPoints += action.payload
+        }, 
+        setUserEmail: (state, action) => {
+            state.email = action.payload
+        },
+        setPassword: (state, action) => {
+            state.password = action.payload
         }
     }
 })
 
-export const { setUserLoginStatus, setUserName, setUserPoints, setUserToken, descreaseUserPoints, increaseUserPoints } = userSlice.actions
+export const { setUserLoginStatus, setUserName, setUserPoints, setUserToken, descreaseUserPoints, increaseUserPoints, setUserEmail, setPassword, setUserId } = userSlice.actions
 
 export default userSlice.reducer
