@@ -1,34 +1,45 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MenuBoard from '../components/MenuBoard'
 import { setUserPoints } from "../features/user/userSlice";
 import axios from "axios";
+import Cookies from "js-cookie";
+
 
 export default function Menu() {
     const userInfo = useSelector(state => state.user)
-    const userPoints = useSelector(state => state.user.userPoints)
-
-    function getUserPoints() {
-        const userEmail = userInfo.email
-        axios.post("http://localhost:8080/api/user?email=" + userEmail)
-            .then(res => givePoints(res.data.points))
-    }
-
-    useEffect(()=> getUserPoints)
-
+    const userPoints = userInfo.userPoints
     const dispatch = useDispatch()
 
-    function givePoints(points) {
-        dispatch(setUserPoints(points))
+    function getUserPoints() {
+        const userEmail = Cookies.get("email")
+        // console.log("points got")
+        if(userEmail) {
+            axios.post("http://localhost:8080/api/user?email=" + userEmail)
+                .then(res => dispatch(setUserPoints(res.data.points)))
+        }
     }
-    console.log(userInfo.userId)
+    // console.log("cart:" + cartInfo)
 
-    function increasePoints() {
+    useEffect(()=> getUserPoints(),[])
+
+    function increasePoints(points) {
+        const userInfo = {
+            firstName: Cookies.get("firstName"),
+            lastName: Cookies.get("lastName"),
+            email: Cookies.get("email"),
+            password: Cookies.get("password"),
+            points: 100,
+            role: Cookies.get("role")
+        }
+        // console.log(Cookies.get("id"))
         axios({
             method: "put",
-            url: "http://localhost:8080/api/user/1",
-            data: 1000
+            url: "http://localhost:8080/api/user/" + Cookies.get("id"),
+            data: userInfo,
+            headers: {'Authorization' : 'Bearer ' + Cookies.get("token")}
         })
+            .then(res => dispatch(setUserPoints(res.data.points)))
             .catch(function (error) {
                 if(error.response) {
                     console.log(error.response)
@@ -38,10 +49,13 @@ export default function Menu() {
             })
     }
 
+    // useEffect(()=> console.log(userPoints))
+
+
     return (
         <div className="menu-page">
-            <h2 className="menu-user-points">Available Points: {userPoints}</h2>
-            <h2 style={{border:".4rem solid black", cursor:"pointer"}} onClick={increasePoints}>Give 100 points</h2>
+            {userPoints != "NO POINTS" && <h2 className="menu-user-points">Available Points: {userPoints}</h2>}
+            <h2 style={{border:".4rem solid black", cursor:"pointer"}} onClick={()=> increasePoints()}>Give 100 points</h2>
             <MenuBoard/>
         </div>
     )

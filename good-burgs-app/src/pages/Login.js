@@ -2,15 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserLoginStatus, setUserEmail, setPassword } from "../features/user/userSlice";
+import { setUserLoginStatus, setUserName, setUserPoints } from "../features/user/userSlice";
+import Cookies from "js-cookie";
 
 export default function Login() {
     const userInfo = useSelector(state => state.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const [successfulLogin, setSuccessfulLogin] = useState(true)
-    // const [status, setStatus] = useState({})
+    const [badCredentials, setBadCredentials] = useState(false)
+
     const [loginForm, setLoginForm] = useState({
         email: "",
         password: ""
@@ -25,42 +26,33 @@ export default function Login() {
                 [name]: value
             })
         })
-        setSuccessfulLogin(true)
+        setBadCredentials(false)
     }
 
     async function handleSubmit(event) {
         event.preventDefault()
-
         axios.post("http://localhost:8080/api/v1/auth/login", loginForm) 
-            .then(res => checkStatus(res.status))
+            .then(res => checkStatus(res))
             .catch(function (error) {
                 if(error.response) {
-                    checkStatus(error.response.status)
+                    checkStatus(error.response)
                 }
             })
     }
 
     function checkStatus(response) {
-
-        console.log(response)
-        if(response === 200) {
-            // alert("Success!")
-            dispatch(setUserEmail(loginForm.email))
-            dispatch(setPassword(loginForm.password))
-            // dispatch(setUserToken(response.data.token))
-            // console.log("email: " +loginForm.email)
-            // console.log("password: " +loginForm.password)
-            localStorage.setItem("email", loginForm.email)
-            localStorage.setItem("password", loginForm.password)
-            localStorage.setItem("loggedIn", true)
-            // localStorage.setItem("token", status.data.token)
+        // console.log(response)
+        const status = response.status
+        const token = response.data.token
+        // const role = response.data.
+        if(status === 200) {
+            Cookies.set("email", loginForm.email)
+            Cookies.set("password", loginForm.password)
+            Cookies.set("token", token)
             dispatch(setUserLoginStatus())
             handleNaviagte()
-        } else if (response === 403) {
-            localStorage.setItem("loggedIn", false)
-            localStorage.setItem("email", "")
-            localStorage.setItem("password", "")
-            setSuccessfulLogin(false)
+        } else if (status === 403) {
+            setBadCredentials(true)
         }
     }
 
@@ -70,18 +62,45 @@ export default function Login() {
     }
 
     useEffect(()=> {
-        let loggedInUser = localStorage.getItem("email")
+        let loggedInUser = Cookies.get("email")
+
         if(loggedInUser) {
             dispatch(setUserLoginStatus(true))
         } else {
             dispatch(setUserLoginStatus(false))
         }
+    // eslint-disable-next-line
     }, [])
 
     function handleLogOut() {
         dispatch(setUserLoginStatus(false))
-        localStorage.clear()
+        Cookies.remove("email")
+        Cookies.remove("password")
+        Cookies.remove("token")
+        dispatch(setUserPoints("NO POINTS"))
     }
+
+    function getUserInfo() {
+        const userEmail = Cookies.get("email")
+        if(userEmail) {
+            axios.post("http://localhost:8080/api/user?email=" + userEmail)
+                .then(res => setUserInfo(res.data))
+        }
+    }
+
+    function setUserInfo(data) {
+        // console.log(data)
+        if(userInfo.firstName !== "") {
+            Cookies.set("role", data.role)
+            Cookies.set("firstName", data.firstName)
+            Cookies.set("lastName", data.lastName)
+            Cookies.set("id", data.id)
+            dispatch(setUserPoints(data.points))
+            dispatch(setUserName(data.firstName))
+        }
+    }
+
+    useEffect(() => getUserInfo())
 
     return (
         <div className="login-form-wrapper" >
@@ -104,7 +123,7 @@ export default function Login() {
                         name={"password"}
                         value={loginForm.password}
                     />
-                    {!successfulLogin && <h5 style={{margin: ".2rem", color: "red", alignSelf: "center"}}>An error has occured. Please try again.</h5>}
+                    {badCredentials && <h5 style={{margin: ".2rem", color: "red", alignSelf: "center"}}>The email or password is not correct.</h5>}
                     <button className="login-button" onClick={handleSubmit} type="submit" onSubmit={handleSubmit}>
                         Login
                     </button>
@@ -118,7 +137,7 @@ export default function Login() {
             {/* UI FOR LOGGED IN USER */}
             {userInfo.loggedIn && 
                 <div>
-                    <h1>You are now logged in!</h1>
+                    <h1>Welcome, {userInfo.userName}</h1>
                     <div onClick={handleLogOut} style={{cursor:"pointer"}}>Logout</div>
                 </div>
             }

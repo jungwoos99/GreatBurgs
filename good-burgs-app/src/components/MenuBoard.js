@@ -5,6 +5,10 @@ export default function MenuBoard() {
 
     const [food, setFood] = useState([]);
 
+    /*TODO: 
+        - Create different sections for Entrees, Sides, Drinks, Desserts
+    */
+
     function fillFoodList() {
 
         fetch("http://localhost:8080/api/food/all")
@@ -12,6 +16,7 @@ export default function MenuBoard() {
             .then(data => setFood(data.map((food) => 
                 <FoodCard
                     key={food.id}
+                    id={food.id}
                     name={food.name}
                     desc={food.description}
                     ingredients={food.ingredients}

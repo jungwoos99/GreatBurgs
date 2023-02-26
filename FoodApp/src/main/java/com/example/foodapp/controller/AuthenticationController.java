@@ -6,6 +6,10 @@ import com.example.foodapp.auth.AuthenticationService;
 import com.example.foodapp.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,7 +29,13 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
-        return ResponseEntity.ok(service.authenticate(authenticationRequest));
+        ResponseEntity responseEntity;
+        try {
+            responseEntity = ResponseEntity.ok(service.authenticate(authenticationRequest));
+        } catch (UsernameNotFoundException u) {
+            responseEntity = ResponseEntity.notFound().build();
+        }
+        return responseEntity;
     }
 
 }

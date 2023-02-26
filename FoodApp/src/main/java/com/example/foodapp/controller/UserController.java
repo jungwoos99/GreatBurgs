@@ -30,7 +30,20 @@ public class UserController {
         }
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<User> updateUserPoints(@PathVariable("id") Integer id, @RequestBody User user) {
+        Optional<User> userInfo = userRepository.findById(id);
+
+        if(userInfo.isPresent()) {
+            User updatedUser = userInfo.get();
+            updatedUser.setPoints(updatedUser.getPoints() + user.getPoints());
+            return new ResponseEntity<>(userRepository.save(updatedUser), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     /*TODO
-        Configure PutMapping controller method that takes in some body, object and updates a users point attribute
+
      */
 }

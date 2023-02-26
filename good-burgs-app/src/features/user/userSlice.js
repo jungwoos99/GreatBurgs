@@ -3,9 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     userId: "",
     userName: "",
-    email: localStorage.getItem("email"),
-    password: localStorage.getItem("password"),
-    userPoints: 0,
+    userPoints: "NO POINTS",
     userRole: "",
     loggedIn: false,
     token: ""
@@ -36,15 +34,9 @@ const userSlice = createSlice({
         increaseUserPoints: (state, action) => {
             state.userPoints += action.payload
         }, 
-        setUserEmail: (state, action) => {
-            state.email = action.payload
-        },
-        setPassword: (state, action) => {
-            state.password = action.payload
-        }
     }
 })
 
-export const { setUserLoginStatus, setUserName, setUserPoints, setUserToken, descreaseUserPoints, increaseUserPoints, setUserEmail, setPassword, setUserId } = userSlice.actions
+export const { setUserLoginStatus, setUserName, setUserPoints, setUserToken, descreaseUserPoints, increaseUserPoints, setUserId } = userSlice.actions
 
 export default userSlice.reducer

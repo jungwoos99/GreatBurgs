@@ -1,25 +1,26 @@
 .app {
   display: flex;
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 .navbar {
+  height: 6rem;
   width: 100vw;
   display: flex;
   padding: 0;
-  margin: 0;
+  /* margin-bottom: 1rem; */
   justify-content: center;
   align-items: center;
   background-color: red;
-  height: 6rem;
   color: white;
+  /* position: fixed; */
 }
 
 .navbar-heading {
-  grid-area: "header";
+  align-self: center;
   font-size: 4rem;
   margin: 0;
   padding: 0;
@@ -47,8 +48,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  justify-self: center;
-  align-self: center;
   width: 90%;
   margin: 0;
   padding: 0;
@@ -61,88 +60,104 @@
 .menu-container {
   display: flex;
   margin: 2rem;
+  margin-top: 0;
+  padding: 1rem;
+  padding-top: 0;
   width: 100%;
-  border: solid .25rem ;
+  border: solid 0.25rem none;
   border-radius: 8px;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
 }
 
 .food-card {
   display: flex;
-  border: solid .4rem red;
+  /* border: solid 0.4rem red; */
+  max-height: 25rem;
+  max-width: 18rem;
   flex-direction: column;
   padding: 1rem;
-  margin: .2rem;
+  margin: 2rem;
+  margin-top: .5rem;
+  margin-bottom: 0;
   border-radius: 10px;
-  max-width: 10rem;
   justify-content: space-between;
 }
 
+.food-card-name {
+  align-self: center;
+  margin: 0;
+  margin-bottom: .5rem;
+}
+
+
 .food-card-img {
   align-self: center;
-  height: 10rem;
-  width: 10em;
+  height: 20rem;
+  width: 20rem;
+  margin: 0;
+  justify-self: flex-start;
 }
 
 .food-card-purchase-options {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  justify-content: center;
   align-items: center;
 }
 
-.food-card-price-container {
+.add-to-order-button {
   display: flex;
+  justify-content: center;
   background-color: red;
-  border-radius: 10px;
-  padding: .3rem;
-  color: white;
-  height: 2rem;
-  width: 4rem;
-  justify-content: center;
   align-items: center;
+  height: 2rem;
+  padding: .4rem;
+  margin: .2rem;
+  border-radius: 8px;
+  color: white;
   cursor: pointer;
 }
 
-.food-card-price {
-  padding: 0;
-  margin: 0;
+.add-to-order-button:hover {
+  transition: 0.3s;
+  transform: translateY(-.2rem);
 }
 
-.food-card-redeem-container {
-  display: flex;
-  background-color: green;
-  border-radius: 10px;
-  padding: .3rem;
+.redeemable-label {
+  position: absolute;
+  background-color: forestgreen;
   color: white;
-  height: 2rem;
-  width: 4rem;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+  border-radius: 4px;
+  /* display: none; */
+  animation: blinker 4s linear infinite;
 }
 
-.fooc-card-redeem {
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+} 
+
+.redeemable-label > h2 {
   padding: 0;
-  margin: 0;
+  margin: .2rem;
 }
 
-.food-card-redeem-container:hover, .food-card-price-container:hover {
-  transition: .3s;
-  transform: translateY(-4px);
-}
-
-.login-form, .register-form{
+.login-form,
+.register-form {
   align-self: center;
   margin: 2rem;
   display: flex;
-  border: .25rem solid red;
+  border: 0.25rem solid red;
   border-radius: 10px;
   justify-content: center;
   width: 20rem;
 }
 
-.register-form-wrapper, .login-form-wrapper{
+.register-form-wrapper,
+.login-form-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -150,11 +165,36 @@
 
 .link-nav {
   display: flex;
-  background-color: white;
+  margin-left: 1rem;
+  /* background-color: green; */
+}
+
+.link-nav > ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
 }
 
 .link-nav > ul > li {
   margin: 1rem;
+  text-decoration: none;
+}
+
+.cart-quantity {
+  display: flex;
+  position: absolute;
+  color: white;
+  transform: translateX(1.3rem) translateY(1.5rem);
+  background-color: red;
+  border-radius: 50%;
+  height: 1.5rem;
+  width: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  padding: .4rem;
 }
 
 .form-fields {
@@ -163,16 +203,18 @@
 }
 
 .form-fields > input {
-  border: solid .2rem;
+  border: solid 0.2rem gray;
   margin: 1rem;
   border-radius: 5px;
-  text-indent: .3rem;
+  text-indent: 0.4rem;
   height: 2rem;
+  font-size: medium;
 }
 
-.register-button, .login-button {
+.register-button,
+.login-button {
   background-color: green;
-  border: solid .2rem;
+  border: solid 0.2rem;
   margin: 1rem;
   height: 2.5rem;
   border-radius: 9px;
