@@ -19,7 +19,7 @@ public class UserController {
 
     public UserController(UserRepository userRepository) {this.userRepository = userRepository;}
 
-    @PostMapping
+    @GetMapping
     public ResponseEntity<User> getUserInfo(@RequestParam String email) {
         Optional<User> user = userRepository.findByEmail(email);
 

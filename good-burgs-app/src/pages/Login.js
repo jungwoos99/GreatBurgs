@@ -18,7 +18,6 @@ export default function Login() {
     })
 
     function handleChange(event) {
-        // console.log("Change")
         const {name, value} = event.target
         setLoginForm(prevLoginFormData => {
             return ({
@@ -41,10 +40,8 @@ export default function Login() {
     }
 
     function checkStatus(response) {
-        // console.log(response)
         const status = response.status
         const token = response.data.token
-        // const role = response.data.
         if(status === 200) {
             Cookies.set("email", loginForm.email)
             Cookies.set("password", loginForm.password)
@@ -83,7 +80,7 @@ export default function Login() {
     function getUserInfo() {
         const userEmail = Cookies.get("email")
         if(userEmail) {
-            axios.post("http://localhost:8080/api/user?email=" + userEmail)
+            axios.get("http://localhost:8080/api/user?email=" + userEmail)
                 .then(res => setUserInfo(res.data))
         }
     }
@@ -95,8 +92,9 @@ export default function Login() {
             Cookies.set("firstName", data.firstName)
             Cookies.set("lastName", data.lastName)
             Cookies.set("id", data.id)
-            dispatch(setUserPoints(data.points))
-            dispatch(setUserName(data.firstName))
+            Cookies.set("points", data.points)
+            dispatch(setUserPoints(Cookies.get("points")))
+            dispatch(setUserName(Cookies.get("firstName")))
         }
     }
 

@@ -7,6 +7,7 @@ export default function Register() {
 
     const navigate = useNavigate()
     const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [formFilled, setFormFilled] = useState(false)
 
     const [registerData, setRegisterData] = useState(
         {
@@ -31,16 +32,21 @@ export default function Register() {
 
     function handleSubmit(event) {
         event.preventDefault()
-        if(registerData.confirmPassword === registerData.password) {
-            axios.post("http://localhost:8080/api/v1/auth/register", {
-                firstName: registerData.firstName,
-                lastName: registerData.lastName,
-                email: registerData.email,
-                password: registerData.password})
-            .then(res => checkStatus(res.status))
-        } else {
-            alert("Passwords do not match!")
-        }
+        if(registerData.firstName && registerData.lastName && registerData.email
+            && registerData.password && registerData.confirmPassword) {
+                if(registerData.confirmPassword === registerData.password) {
+                    axios.post("http://localhost:8080/api/v1/auth/register", {
+                        firstName: registerData.firstName,
+                        lastName: registerData.lastName,
+                        email: registerData.email,
+                        password: registerData.password})
+                    .then(res => checkStatus(res.status))
+                } else {
+                    alert("Passwords do not match!")
+                }
+            } else {
+                alert("Please fill out all fields.")
+            }
     }
 
     function handleNavigate(event) {
