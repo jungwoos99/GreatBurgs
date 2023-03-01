@@ -5,7 +5,7 @@ import ShoppingBag from "/Users/jungwooseo/Desktop/GreatBurgs/good-burgs-app/src
 
 const Layout = () => {
 
-    const cartQunatity = useSelector(state => state.cart).cartItems
+    const cartQunatity = useSelector(state => state.cart).itemIds.length
 
     return (
         <>

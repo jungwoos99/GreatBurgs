@@ -10,7 +10,8 @@ export default function Login() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const [badCredentials, setBadCredentials] = useState(false)
+    const [badCredentials, setBadCredentials] = useState({status: false, message: ""})
+    const [userFoundStatus, setUserFoundStatus] = useState(false)
 
     const [loginForm, setLoginForm] = useState({
         email: "",
@@ -25,18 +26,29 @@ export default function Login() {
                 [name]: value
             })
         })
-        setBadCredentials(false)
+        setBadCredentials({
+            status: false,
+            message: ""
+        })
     }
 
     async function handleSubmit(event) {
         event.preventDefault()
+        checkUserExists(loginForm.email)
         axios.post("http://localhost:8080/api/v1/auth/login", loginForm) 
             .then(res => checkStatus(res))
             .catch(function (error) {
                 if(error.response) {
                     checkStatus(error.response)
+                    console.log(error.response)
                 }
             })
+    }
+
+    function checkUserExists(email) {
+        fetch("http://localhost:8080/api/user?email="+ email)
+            .then(res => setUserFoundStatus(res.status))
+        console.log("user found: " + userFoundStatus)
     }
 
     function checkStatus(response) {
@@ -48,8 +60,17 @@ export default function Login() {
             Cookies.set("token", token)
             dispatch(setUserLoginStatus())
             handleNaviagte()
-        } else if (status === 403) {
-            setBadCredentials(true)
+        } else if(userFoundStatus === 404) {
+            setBadCredentials({
+                status: true,
+                message: "No accounts associated with this email exist."
+            })
+        }
+        else if (status === 400) {
+            setBadCredentials({
+                status: true,
+                message: "Email or password is incorrect."
+            })
         }
     }
 
@@ -121,7 +142,7 @@ export default function Login() {
                         name={"password"}
                         value={loginForm.password}
                     />
-                    {badCredentials && <h5 style={{margin: ".2rem", color: "red", alignSelf: "center"}}>The email or password is not correct.</h5>}
+                    {badCredentials.status && <h5 style={{margin: ".2rem", color: "red", alignSelf: "center"}}>{badCredentials.message}</h5>}
                     <button className="login-button" onClick={handleSubmit} type="submit" onSubmit={handleSubmit}>
                         Login
                     </button>

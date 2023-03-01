@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { useState } from "react";
-import { addItemId, addItemToCart, removeItemId } from "../features/cart/cartSlice";
+import { useEffect, useState } from "react";
+import { addItemId, removeItemId } from "../features/cart/cartSlice";
 import axios from "axios";
 import { setUserPoints } from "../features/user/userSlice";
 
@@ -9,7 +9,7 @@ export default function FoodCard(props) {
     const dispatch = useDispatch()
 
     const userInfo = useSelector(state => state.user)
-    // const itemIds = useSelector(state => state.cart).itemIds
+    const itemIds = useSelector(state => state.cart).itemIds
     const points = userInfo.userPoints
     const [isAdded, setIsAdded] = useState(false)
 
@@ -19,10 +19,20 @@ export default function FoodCard(props) {
     //     currency: 'USD',
     // });
 
+    function addRemoveItem(id) {
+        updatePoints(props.pointValue)
+        if(!isAdded) {
+            setIsAdded(true)
+            dispatch(addItemId(id))
+        } else if(isAdded) {
+            setIsAdded(false)
+            dispatch(removeItemId(id))
+        }
+    }
+
     function updatePoints(foodPoints) {
         const updateUserPointsUrl = "http://localhost:8080/api/user/" + Cookies.get("id")
         const pointValue = isAdded === true ? foodPoints : -(foodPoints)
-
         const userData = {
             firstName: Cookies.get("firstName"),
             lastName: Cookies.get("lastName"),
@@ -31,7 +41,6 @@ export default function FoodCard(props) {
             points: pointValue,
             role: Cookies.get("role")
         }
-
         axios({
             method: "put",
             url: updateUserPointsUrl,
@@ -44,24 +53,6 @@ export default function FoodCard(props) {
                     console.log(error.response)
                 }
             })
-    }
-
-    function addRemoveItem(id) {
-
-        updatePoints(props.pointValue)
-
-        if(!isAdded) {
-            dispatch(addItemToCart(1))
-            setIsAdded(true)
-            dispatch(addItemId(id))
-        } else if(isAdded) {
-            dispatch(addItemToCart(-1))
-            setIsAdded(false)
-            dispatch(removeItemId(id))
-        }
-
-        console.log("Cookies: " + Cookies.get("ids"))
-
     }
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 export default function CartItems() {
@@ -6,8 +6,6 @@ export default function CartItems() {
     const dispatch = useDispatch()
     const cartItemIds = useSelector(state => state.cart).itemIds
     const [food, setFood] = useState([])
-
-
 
     return (
         <div>

@@ -7,7 +7,7 @@ export default function Register() {
 
     const navigate = useNavigate()
     const [modalIsOpen, setModalIsOpen] = useState(false)
-    const [formFilled, setFormFilled] = useState(false)
+    const [formIsValid, setFormIsValid] = useState(true)
 
     const [registerData, setRegisterData] = useState(
         {
@@ -28,25 +28,40 @@ export default function Register() {
                 [name]: value
             }
         })
+        setFormIsValid(true)
     }
 
     function handleSubmit(event) {
         event.preventDefault()
-        if(registerData.firstName && registerData.lastName && registerData.email
-            && registerData.password && registerData.confirmPassword) {
-                if(registerData.confirmPassword === registerData.password) {
-                    axios.post("http://localhost:8080/api/v1/auth/register", {
-                        firstName: registerData.firstName,
-                        lastName: registerData.lastName,
-                        email: registerData.email,
-                        password: registerData.password})
-                    .then(res => checkStatus(res.status))
-                } else {
-                    alert("Passwords do not match!")
-                }
+        const { firstName, lastName, password, confirmPassword, email } = registerData
+        if(firstName && lastName && password && confirmPassword && email) {
+            if(registerData.confirmPassword === registerData.password) {
+                axios.post("http://localhost:8080/api/v1/auth/register", {
+                    firstName: registerData.firstName,
+                    lastName: registerData.lastName,
+                    email: registerData.email,
+                    password: registerData.password})
+                .then(res => checkStatus(res.status))
+                .catch((error) => {
+                    if(error.response.status === 500) {
+                        setFormIsValid({
+                            status: false,
+                            message: "An account associated with this email already exists."
+                        })
+                    }
+                })
             } else {
-                alert("Please fill out all fields.")
+                setFormIsValid({
+                    status: false,
+                    message: "Passwords do not match!"
+                })
             }
+        } else {
+            setFormIsValid({
+                status: false,
+                message: "Please fill out all fields."
+            })
+        }
     }
 
     function handleNavigate(event) {
@@ -70,7 +85,8 @@ export default function Register() {
             <ReactModal isOpen={modalIsOpen}>
                 <h1>Success! You can now login with your email and your password</h1>
             </ReactModal>
-            <h1 style={{margin:0}}>Register An Account</h1>
+            <h1 style={{marginBottom:".2rem", padding: "0"}}>Register An Account</h1>
+            {formIsValid.status === false && <h3 className='register-error-message'>{formIsValid.message}</h3>}
             <div className='register-form'>
                 <form className="form-fields">
                     <input
@@ -88,7 +104,7 @@ export default function Register() {
                         value={registerData.lastName}
                     />
                     <input
-                        type={"text"}
+                        type={"email"}
                         placeholder={"Email"}
                         onChange={handleChange}
                         name={"email"}
