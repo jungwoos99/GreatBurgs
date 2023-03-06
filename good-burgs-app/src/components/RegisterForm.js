@@ -3,8 +3,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ReactModal from 'react-modal'
 
-export default function Register() {
-
+export default function Registerform() {
     const navigate = useNavigate()
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [formIsValid, setFormIsValid] = useState(true)
@@ -28,32 +27,52 @@ export default function Register() {
                 [name]: value
             }
         })
-        setFormIsValid(true)
+        setFormIsValid({
+            status: true, 
+            message: ""
+        })
     }
 
     function handleSubmit(event) {
         event.preventDefault()
         const { firstName, lastName, password, confirmPassword, email } = registerData
-        if(firstName && lastName && password && confirmPassword && email) {
-            if(registerData.confirmPassword === registerData.password) {
-                axios.post("http://localhost:8080/api/v1/auth/register", {
-                    firstName: registerData.firstName,
-                    lastName: registerData.lastName,
-                    email: registerData.email,
-                    password: registerData.password})
-                .then(res => checkStatus(res.status))
-                .catch((error) => {
-                    if(error.response.status === 500) {
+
+        const emailIsValid = validateEmail(email) !== null
+
+        const formIsFull = (firstName && lastName && password && confirmPassword && email)
+        const passwordsMatch = password === confirmPassword
+        const formIsValid = formIsFull && emailIsValid
+
+        if(formIsFull) {
+            if(emailIsValid) {
+                if(formIsValid) {
+                    if(passwordsMatch) {
+                        axios.post("http://localhost:8080/api/v1/auth/register", {
+                            firstName: registerData.firstName,
+                            lastName: registerData.lastName,
+                            email: registerData.email,
+                            password: registerData.password
+                        })
+                        .then(res => checkStatus(res.status))
+                        .catch((error) => {
+                            if(error.response.status === 500) {
+                                setFormIsValid({
+                                    status: false,
+                                    message: "An account associated with this email already exists."
+                                })
+                            }
+                        })
+                    } else {
                         setFormIsValid({
                             status: false,
-                            message: "An account associated with this email already exists."
+                            message: "Passwords do not match!"
                         })
                     }
-                })
+                }
             } else {
                 setFormIsValid({
                     status: false,
-                    message: "Passwords do not match!"
+                    message: "Please enter a valid email."
                 })
             }
         } else {
@@ -64,8 +83,8 @@ export default function Register() {
         }
     }
 
-    function handleNavigate(event) {
-        let path = "../login"
+    function handleNavigate() {
+        const path = "../account"
         navigate(path)
     }
 
@@ -80,10 +99,15 @@ export default function Register() {
         }
     }
 
+    function validateEmail(email) {
+        const pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+        return email.match(pattern)
+    }
+
     return (
-        <div className='register-form-wrapper'>
-            <ReactModal isOpen={modalIsOpen}>
-                <h1>Success! You can now login with your email and your password</h1>
+        <>
+            <ReactModal isOpen={modalIsOpen} className="register-modal">
+                <h3>You can now login with your email and your password!</h3>
             </ReactModal>
             <h1 style={{marginBottom:".2rem", padding: "0"}}>Register An Account</h1>
             {formIsValid.status === false && <h3 className='register-error-message'>{formIsValid.message}</h3>}
@@ -127,6 +151,6 @@ export default function Register() {
                     <button className='register-button' onClick={handleSubmit} type="submit">Register</button>
                 </form>
             </div>
-        </div>
+        </>
     )
 }

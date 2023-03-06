@@ -16,7 +16,6 @@ export default function Home() {
 
     return (
         <>
-            {/* <h1 style={{marginLeft:"3.4rem"}}>Welcome, {userInfo.userName}.</h1> */}
             <h1>Token: {Cookies.get("token")}</h1>
             <div 
                 style={{border:".2rem solid black", width:"4rem", height:"4rem", margin:"10rem", cursor:"pointer"}}

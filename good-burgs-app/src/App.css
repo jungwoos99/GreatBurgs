@@ -1,10 +1,11 @@
 .app {
   display: flex;
-  font-family: "Oswald", sans-serif;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
+/* HEADER */
 
 .navbar {
   height: 6rem;
@@ -26,15 +27,67 @@
   padding: 0;
 }
 
-/* 
-.navbar-profile-img{ 
+/* NAV */
+
+.link.active {
+  color: white;
+  background-color: red;
+  padding: .25rem;
+  border-radius: 5px;
+}
+
+.link {
+  color: red;
+  background-color: white;
+  padding: .25rem;
+  border-radius: 5px;
+}
+
+.link:hover{
+  transition: .3s;
+  color: white;
+  background-color: red;
+  padding: .25rem;
+  border-radius: 5px;
+}
+
+.link-nav {
+  display: flex;
+  padding-left: 1rem;
+  margin-top: 0;
+  padding-top: 0;
   height: 4rem;
-  width: 4rem;
-  border-radius: 100%;
-  padding: 0;
+  /* background-color: green; */
+}
+
+.link-nav > ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  text-decoration: none;
   margin: 0;
+  padding: 0;
+}
+
+.link-nav > ul > li {
+  margin: 1rem;
+  text-decoration: none;
+}
+
+.cart-quantity {
+  display: flex;
+  position: absolute;
+  color: white;
+  transform: translateX(1.3rem) translateY(1.5rem);
+  background-color: red;
+  border-radius: 50%;
+  height: 1.5rem;
+  width: 1.5rem;
   justify-content: center;
-} */
+  align-items: center;
+}
+
+/* MENU */
 
 .menu-page {
   display: flex;
@@ -71,6 +124,8 @@
   align-items: center;
 }
 
+/* FOOD CARD */
+
 .food-card {
   display: flex;
   /* border: solid 0.4rem red; */
@@ -83,6 +138,16 @@
   margin-bottom: 0;
   border-radius: 10px;
   justify-content: space-between;
+}
+
+.food-card:hover {
+  transition: .5s;
+  transform: scale(1.1);
+}
+
+.food-card:not(:hover) {
+  transition: .5s;
+  transform: scale(1);
 }
 
 .food-card-name {
@@ -145,6 +210,8 @@
   margin: .2rem;
 }
 
+/* LOGIN/ REGISTER */ 
+
 .login-form,
 .register-form {
   align-self: center;
@@ -158,7 +225,7 @@
 }
 
 .register-form-wrapper,
-.login-form-wrapper {
+.login-page-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -169,40 +236,6 @@
   margin-top: 0;
   margin-bottom: .5rem;
   padding: 0;
-}
-
-.link-nav {
-  display: flex;
-  margin-left: 1rem;
-  /* background-color: green; */
-}
-
-.link-nav > ul {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  text-decoration: none;
-  margin: 0;
-  padding: 0;
-}
-
-.link-nav > ul > li {
-  margin: 1rem;
-  text-decoration: none;
-}
-
-.cart-quantity {
-  display: flex;
-  position: absolute;
-  color: white;
-  transform: translateX(1.3rem) translateY(1.5rem);
-  background-color: red;
-  border-radius: 50%;
-  height: 1.5rem;
-  width: 1.5rem;
-  justify-content: center;
-  align-items: center;
-  padding: .4rem;
 }
 
 .form-fields {
@@ -227,5 +260,19 @@
   height: 2.5rem;
   border-radius: 9px;
   color: white;
+  font-size: large;
   cursor: pointer;
+}
+
+.register-modal {
+  background-color: white;
+  outline: none;
+  height: 30rem;
+  max-height: 100%;
+  width: 30rem;
+  max-width: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }

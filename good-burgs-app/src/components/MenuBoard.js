@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { initializeFoodItems } from '../features/menu/menuSlice';
 import FoodCard from './FoodCard';
-import Cookies from 'js-cookie';
 
 export default function MenuBoard() {
 
     const [food, setFood] = useState([]);
-    const dispatch = useDispatch()
-    const itemIds = useSelector(state => state.cart).itemIds
-    const foodCards = useSelector(state => state.menu).foodItems
 
     /*TODO: 
         - Create different sections for Entrees, Sides, Drinks, Desserts
@@ -31,15 +25,6 @@ export default function MenuBoard() {
                 />
             ))))
     }
-
-    function updateStoreIds() {
-        const newIds = itemIds
-        Cookies.remove("ids")
-        Cookies.set("ids", newIds)
-        console.log("ids: "+ Cookies.get("ids"))
-    }
-
-    useEffect(()=> updateStoreIds(), [itemIds])
 
     useEffect(()=> fillFoodList(), [])
 

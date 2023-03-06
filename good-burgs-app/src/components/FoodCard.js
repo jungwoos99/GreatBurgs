@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { addItemId, removeItemId } from "../features/cart/cartSlice";
 import axios from "axios";
 import { setUserPoints } from "../features/user/userSlice";
@@ -9,7 +9,7 @@ export default function FoodCard(props) {
     const dispatch = useDispatch()
 
     const userInfo = useSelector(state => state.user)
-    const itemIds = useSelector(state => state.cart).itemIds
+    // const itemIds = useSelector(state => state.cart).itemIds
     const points = userInfo.userPoints
     const [isAdded, setIsAdded] = useState(false)
 

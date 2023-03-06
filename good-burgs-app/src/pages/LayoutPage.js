@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Outlet, Link } from 'react-router-dom'
+import { Outlet, NavLink } from 'react-router-dom'
 import ShoppingBag from "/Users/jungwooseo/Desktop/GreatBurgs/good-burgs-app/src/ShoppingBag.png"
 
 const Layout = () => {
@@ -10,27 +10,27 @@ const Layout = () => {
     return (
         <>
             <nav className='link-nav'>
-                <ul style={{display: "flex", flexDirection: "row", listStyle: "none", width: "100vw"}}>
+                <ul style={{display: "flex", flexDirection: "row", listStyle: "none", width: "100vw"}} className= "navigation">
                     <li style={{textDecoration:"none"}}>
-                        <Link to={"/"} style={{textDecoration:"none"}}>Home</Link>
+                        <NavLink to={"/"} style={{textDecoration:"none"}} className="link">Home</NavLink>
                     </li>
                     <li>
-                        <Link to={"/menu"} style={{textDecoration:"none"}}>Menu</Link>
+                        <NavLink to={"/menu"} style={{textDecoration:"none"}} className="link">Menu</NavLink>
                     </li>
                     <li>
-                        <Link to={"/login"} style={{textDecoration:"none"}}>Account</Link>
+                        <NavLink to={"/account"} style={{textDecoration:"none"}} className="link">Account</NavLink>
                     </li>
-                    <li style={{marginLeft: "auto", marginRight: "3rem"}}>
-                        <Link to={"/cart"}>
+                    <li style={{marginLeft: "auto", marginRight: "2rem", marginTop: "2rem"}}>
+                        <NavLink to={"/cart"}>
                             <div>
                                 {cartQunatity > 0 && 
                                     <div className='cart-quantity'>
                                         <h4>{cartQunatity}</h4>
                                     </div>
                                 }
-                                <img src={ShoppingBag} style={{height:"2rem", textDecoration:"none"}} alt="clipart of shopping bag"></img>
+                                <img src={ShoppingBag} style={{height:"2rem", textDecoration:"none"}} alt="clipart of shopping bag" className='shopping-bag-img'></img>
                             </div>
-                        </Link>
+                        </NavLink>
                     </li>
                 </ul>
             </nav>

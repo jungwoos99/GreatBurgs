@@ -2,27 +2,27 @@ import React from 'react'
 import NavBar from './components/NavBar'
 import "./App.css"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from './pages/Layout';
-import Home from './pages/Home'
-import Menu from './pages/Menu';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Cart from './pages/Cart'
+import Layout from './pages/LayoutPage';
+import HomePage from './pages/HomePage'
+import MenuPage from './pages/MenuPage';
+import RegisterPage from './pages/RegisterPage';
+import CartPage from './pages/CartPage'
+import AccountPage from './pages/AccountPage';
 
 export default function App() {
 
   return (
     <BrowserRouter>
-      <NavBar/>
-        <Routes>
-          <Route path='/' element={<Layout/>}>
-            <Route index element={<Home/>}/>
-            <Route path='menu' element={<Menu/>}/>
-            <Route path='login' element={<Login/>}/>
-            <Route path='register' element={<Register/>}/>
-            <Route path='cart' element={<Cart/>}/>
-          </Route>
-        </Routes>
+    <NavBar/>
+      <Routes>
+        <Route path='/' element={<Layout/>}>
+          <Route index element={<HomePage/>}/>
+          <Route path='menu' element={<MenuPage/>}/>
+          <Route path='account' element={<AccountPage/>}/>
+          <Route path='register' element={<RegisterPage/>}/>
+          <Route path='cart' element={<CartPage/>}/>
+        </Route>
+      </Routes>
     </BrowserRouter>
   )
 }
