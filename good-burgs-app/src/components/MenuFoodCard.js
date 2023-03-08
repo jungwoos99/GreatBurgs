@@ -1,17 +1,31 @@
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { useState } from "react";
-import { addItemId, removeItemId } from "../features/cart/cartSlice";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { setUserPoints } from "../features/user/userSlice";
+import { addCartFoodCard, removeCartFoodCard } from "../features/cart/cartSlice";
 
-export default function FoodCard(props) {
+export default function MenuFoodCard(props) {
     const dispatch = useDispatch()
 
     const userInfo = useSelector(state => state.user)
-    // const itemIds = useSelector(state => state.cart).itemIds
+    const cartItems = useSelector(state => state.cart).cartFoodCards
     const points = userInfo.userPoints
+    // const [isAdded, setIsAdded] = useState(false)
     const [isAdded, setIsAdded] = useState(false)
+    
+    function checkIfCartContains() {
+        const cartItemIds = Cookies.get("ids")
+        let cartItemIdsArray;
+        if(cartItemIds) {
+            cartItemIdsArray = cartItemIds.split(",")
+            if(cartItemIdsArray.includes(props.id + "")) {
+                setIsAdded(true)
+            }
+        }
+    }
+
+    useEffect(() => checkIfCartContains())
 
     //converts integers to dollar amount format
     // let USDollar = new Intl.NumberFormat('en-US', {
@@ -19,14 +33,27 @@ export default function FoodCard(props) {
     //     currency: 'USD',
     // });
 
-    function addRemoveItem(id) {
+    function addRemoveItem() {
         updatePoints(props.pointValue)
         if(!isAdded) {
             setIsAdded(true)
-            dispatch(addItemId(id))
+            dispatch(addCartFoodCard({id: props.id, img: props.imgUrl, desc: props.desc, price: props.price, name: props.name}))
+            if(Cookies.get("ids")) {
+                Cookies.set("ids", Cookies.get("ids") + props.id + ",")
+            } else {
+                Cookies.set("ids", props.id+",")
+            }
         } else if(isAdded) {
             setIsAdded(false)
-            dispatch(removeItemId(id))
+            dispatch(removeCartFoodCard(props.id))
+
+
+            let cookieIds = Cookies.get("ids").split(",")
+            if(cookieIds.includes(props.id + "")) {
+                let indexOfId = cookieIds.indexOf(props.id +"")
+                cookieIds.splice(indexOfId, 1)
+            }
+            Cookies.set("ids", cookieIds.toString())
         }
     }
 
@@ -56,7 +83,7 @@ export default function FoodCard(props) {
     }
 
     return (
-        <div className="food-card">
+        <div className="menu-food-card">
             {props.pointValue <= points && 
                 <div className="redeemable-label">
                     <h2>Redeemable</h2>
@@ -65,10 +92,10 @@ export default function FoodCard(props) {
             <img className="food-card-img" src={props.imgUrl} alt={props.desc}></img>
             <h2 className="food-card-name">{props.name}</h2>
             <div className="food-card-purchase-options">
-                {!isAdded && <div className="add-to-order-button" onClick={()=> addRemoveItem(props.id)}>
+                {!isAdded && <div className="add-to-order-button" onClick={()=> addRemoveItem()}>
                     <h3>Add to order</h3>
                 </div>}
-                {isAdded && <div className="add-to-order-button" onClick={()=> addRemoveItem(props.id)}>
+                {isAdded && <div className="add-to-order-button" onClick={()=> addRemoveItem()}>
                     <h3>Remove from order</h3>
                 </div>}
             </div>

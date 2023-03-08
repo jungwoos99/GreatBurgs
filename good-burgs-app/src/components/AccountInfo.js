@@ -2,7 +2,6 @@ import React from 'react'
 import { setUserLoginStatus, setUserPoints } from '../features/user/userSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import Cookies from 'js-cookie'
-import { clearCart } from '../features/cart/cartSlice'
 
 export default function AccountInfo() {
     const userInfo = useSelector(state => state.user)
@@ -13,7 +12,6 @@ export default function AccountInfo() {
         Cookies.remove("email")
         Cookies.remove("password")
         Cookies.remove("token")
-        dispatch(clearCart())
         dispatch(setUserPoints(0))
     }
 

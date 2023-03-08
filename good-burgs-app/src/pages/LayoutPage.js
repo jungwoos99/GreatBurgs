@@ -5,8 +5,6 @@ import ShoppingBag from "/Users/jungwooseo/Desktop/GreatBurgs/good-burgs-app/src
 
 const Layout = () => {
 
-    const cartQunatity = useSelector(state => state.cart).itemIds.length
-
     return (
         <>
             <nav className='link-nav'>
@@ -23,11 +21,11 @@ const Layout = () => {
                     <li style={{marginLeft: "auto", marginRight: "2rem", marginTop: "2rem"}}>
                         <NavLink to={"/cart"}>
                             <div>
-                                {cartQunatity > 0 && 
+                                {/* {cartQunatity > 0 && 
                                     <div className='cart-quantity'>
                                         <h4>{cartQunatity}</h4>
                                     </div>
-                                }
+                                } */}
                                 <img src={ShoppingBag} style={{height:"2rem", textDecoration:"none"}} alt="clipart of shopping bag" className='shopping-bag-img'></img>
                             </div>
                         </NavLink>

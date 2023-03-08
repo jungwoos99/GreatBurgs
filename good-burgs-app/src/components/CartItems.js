@@ -1,15 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import CartFoodCard from './CartFoodCard'
 
 export default function CartItems() {
 
-    const cartItemIds = useSelector(state => state.cart).itemIds
+    const [cartFoodCards, setCartFoodCards] = useState([])
+    const cartCardsData = useSelector(state => state.cart).cartFoodCards
+
+    function fillFoodList() {
+        setCartFoodCards(cartCardsData.map((card) => 
+            <CartFoodCard
+                // key={cartCardsData.indexOf(card).id}
+                id={card.id}
+                imgUrl={card.img}
+                desc={card.desc}
+                price={card.price}
+                name={card.name}
+            />
+        ))
+    }
+
+    console.log(cartFoodCards)
+
+    useEffect(()=>fillFoodList(),[])
 
     return (
-        <div>
-            <h1>Cart Items</h1>
-            <h1>{"Item ids: "+cartItemIds.toString()}</h1>
-            <h1 style={{border:"1px solid black", cursor:"pointer"}}>Get food</h1>
+        <div className='cart-items-container'>
+            <h1 className='cart-items-header'>Your Order</h1>
+            {cartFoodCards}
         </div>
     )
 }

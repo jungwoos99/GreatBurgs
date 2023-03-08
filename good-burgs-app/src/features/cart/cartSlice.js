@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     runningTotal: 0,
-    itemIds: [],
+    cartFoodCards: [],
 }
 
 
@@ -14,22 +14,15 @@ const cartSlice = createSlice({
         increaseRunningTotal: (state, action) => {
             state.runningTotal += action.payload
         }, 
-        addItemId: (state, action) => {
-            state.itemIds = [...state.itemIds, action.payload]
-        }, 
-        removeItemId: (state, action) => {
-            const index = state.itemIds.indexOf(action.payload)
-            state.itemIds.splice(index)
+        addCartFoodCard: (state, action) => {
+            state.cartFoodCards = [...state.cartFoodCards, action.payload]
         },
-        fillItemIds: (state, action) => {
-            state.itemIds = action.payload
-        }, 
-        clearCart: (state) => {
-            state.itemIds = []
+        removeCartFoodCard: (state, action) => {
+            state.cartFoodCards = state.cartFoodCards.filter((card) => state.cartFoodCards.indexOf(card).id === action.payload)
         }
     }
 })
 
-export const { increaseRunningTotal, addItemId, removeItemId, fillItemIds, clearCart } = cartSlice.actions
+export const { increaseRunningTotal, addCartFoodCard, removeCartFoodCard } = cartSlice.actions
 
 export default cartSlice.reducer

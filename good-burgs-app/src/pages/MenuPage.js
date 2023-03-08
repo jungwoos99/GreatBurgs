@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import React from "react";
 import { useSelector } from "react-redux";
 import MenuBoard from '../components/MenuBoard'
@@ -8,6 +9,7 @@ import MenuBoard from '../components/MenuBoard'
 
 export default function Menu() {
     const userInfo = useSelector(state => state.user)
+    const cartCards = useSelector(state => state.cart).cartFoodCards
     const userLoggedIn = userInfo.loggedIn
     const userPoints = userInfo.userPoints
     // const dispatch = useDispatch()
@@ -38,6 +40,12 @@ export default function Menu() {
     //             }
     //         })
     // }
+
+    // console.log(cartCards)
+    cartCards.forEach((card)=> console.log(card.name))
+
+    console.log(Cookies.get("ids").split(","))
+
 
     return (
         <div className="menu-page">

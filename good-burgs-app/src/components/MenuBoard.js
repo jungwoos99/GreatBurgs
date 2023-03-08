@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import FoodCard from './FoodCard';
+import MenuFoodCard from './MenuFoodCard';
 
 export default function MenuBoard() {
 
@@ -13,7 +13,7 @@ export default function MenuBoard() {
         fetch("http://localhost:8080/api/food/all")
             .then(res => res.json())
             .then(data => setFood((data.map((food) => 
-                <FoodCard
+                <MenuFoodCard
                     key={food.id}
                     id={food.id}
                     name={food.name}
@@ -27,6 +27,8 @@ export default function MenuBoard() {
     }
 
     useEffect(()=> fillFoodList(), [])
+
+    
 
     return (
         <div className='menu'>

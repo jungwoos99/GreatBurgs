@@ -54,8 +54,8 @@ export default function LoginForm() {
             Cookies.set("lastName", data.lastName)
             Cookies.set("id", data.id)
             Cookies.set("points", data.points)
-            dispatch(setUserPoints(Cookies.get("points")))
-            dispatch(setUserName(Cookies.get("firstName")))
+            dispatch(setUserPoints(data.points))
+            dispatch(setUserName(data.firstName))
         }
     }
 
