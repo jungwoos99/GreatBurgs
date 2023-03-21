@@ -17,6 +17,7 @@
   align-items: center;
   background-color: red;
   color: white;
+  box-shadow: inset;
   /* position: fixed; */
 }
 
@@ -154,12 +155,11 @@
 
 .food-card-purchase-options {
   display: flex;
-  /* justify-content: space-between; */
   justify-content: center;
   align-items: center;
 }
 
-.add-to-order-button {
+.add-to-order-button, .remove-from-order-button {
   display: flex;
   justify-content: center;
   background-color: red;
@@ -170,6 +170,7 @@
   border-radius: 8px;
   color: white;
   cursor: pointer;
+  transition: 1s;
 }
 
 .add-to-order-button:hover {
@@ -195,6 +196,16 @@
 .redeemable-label > h2 {
   padding: 0;
   margin: .2rem;
+}
+
+.food-card-no-token {
+  display: flex;
+  border: solid .2rem red;
+  background-color: red;
+  color: white;
+  justify-content: center;
+  border-radius: 8px;
+  padding: .2rem;
 }
 
 /* LOGIN/ REGISTER */ 
@@ -315,3 +326,10 @@
   padding: 0;
 }
 
+.account-info-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 85vw;
+  border: .45rem solid black;
+}

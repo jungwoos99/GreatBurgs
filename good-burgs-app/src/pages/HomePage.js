@@ -1,26 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
 import Cookies from "js-cookie";
 
 export default function Home() {
+    // const userId = Cookies.get("userId")
 
-    const [numbers, setNumbers] = useState([])
+    // function addToPets() {
+    //     if(Cookies.get(`person${userId}`) !== undefined) {
+    //         let items = Cookies.get(`person${userId}`)
+    //         items = items + "Shoes,"
+    //         Cookies.set(`person${userId}`, items)
+    //         console.log((Cookies.get(`person${userId}`)).split(","))
+    //     } else {
+    //         Cookies.set(`person${userId}`, "Shoes,")
+    //         console.log(Cookies.get(`person${userId}`))
+    //     }
+    // }
 
-    function pushNewNumber() {
-        console.log("current numbers: " + numbers)
-        setNumbers(prevNumbers => [...prevNumbers, 10])
-        console.log("Current Cookies: " + Cookies.get("nums"))
-        Cookies.remove("nums")
-        Cookies.set("nums", numbers)
-        console.log("New Cookies: " + Cookies.get("nums"))
-    }
+    // if(Cookies.get(`person${userId}`)) {
+    //     console.log(Cookies.get(`person${userId}`).split(","))
+    // }
+
+    // Cookies.remove(`person${userId}`)
 
     return (
-        <>
-            <h1>Token: {Cookies.get("token")}</h1>
-            <div 
-                style={{border:".2rem solid black", width:"4rem", height:"4rem", margin:"10rem", cursor:"pointer"}}
-                onClick={()=>pushNewNumber()}
-            >push</div>
-        </>
+        <div>
+            <h1>Home Page Content</h1>
+        </div>
     )
 }

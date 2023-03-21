@@ -28,8 +28,6 @@ export default function MenuBoard() {
 
     useEffect(()=> fillFoodList(), [])
 
-    
-
     return (
         <div className='menu'>
             <div className='menu-container'>

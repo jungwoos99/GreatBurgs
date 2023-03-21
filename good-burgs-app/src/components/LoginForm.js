@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Cookies from 'js-cookie'
 import { setUserLoginStatus, setUserPoints, setUserName } from '../features/user/userSlice'
 import axios from 'axios'
@@ -49,21 +49,27 @@ export default function LoginForm() {
 
     function setUserInfo(data) {
         if(userInfo.firstName !== "") {
+            Cookies.set("userId", data.userId)
             Cookies.set("role", data.role)
             Cookies.set("firstName", data.firstName)
             Cookies.set("lastName", data.lastName)
-            Cookies.set("id", data.id)
             Cookies.set("points", data.points)
+            Cookies.set("dateJoined", data.dateJoined)
             dispatch(setUserPoints(data.points))
             dispatch(setUserName(data.firstName))
         }
     }
 
-    useEffect(() => getUserInfo())
-
     function handleSubmit(event) {
         event.preventDefault()
-        checkUserExists()
+        if(loginForm.email === "" || loginForm.password === "") {
+            setBadCredentials({
+                status: true,
+                message: "Please fill out both fields."
+            })
+        } else {
+            checkUserExists()
+        }
     }
 
     function checkUserExists() {
@@ -92,6 +98,7 @@ export default function LoginForm() {
                     Cookies.set("email", loginData.email)
                     Cookies.set("password", loginData.password)
                     Cookies.set("token", res.data.token)
+                    getUserInfo()
                     dispatch(setUserLoginStatus(true))
                     handleNaviagte()
                 }

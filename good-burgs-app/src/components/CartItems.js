@@ -1,33 +1,39 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import CartFoodCard from './CartFoodCard'
+import { useNavigate } from 'react-router-dom'
+import Cookies from 'js-cookie'
 
 export default function CartItems() {
 
-    const [cartFoodCards, setCartFoodCards] = useState([])
-    const cartCardsData = useSelector(state => state.cart).cartFoodCards
+    const userId = Cookies.get("userId")
+    const navigate = useNavigate()
+    const cookieCards = Cookies.get(`cart${userId}`).split("$-$").filter(n => n)
 
-    function fillFoodList() {
-        setCartFoodCards(cartCardsData.map((card) => 
-            <CartFoodCard
-                // key={cartCardsData.indexOf(card).id}
-                id={card.id}
-                imgUrl={card.img}
-                desc={card.desc}
-                price={card.price}
-                name={card.name}
-            />
-        ))
+    function handleNavigate(event) {
+        const path = "../menu"
+        navigate(path)
     }
 
-    console.log(cartFoodCards)
+    const names = cookieCards.map((card) => {
+        const cardInfo = JSON.parse(card)
+        return(
+            <CartFoodCard
+                imgUrl={cardInfo.img}
+                name={cardInfo.name}
+                desc={cardInfo.desc}
+            />
+        )}
+    )
 
-    useEffect(()=>fillFoodList(),[])
+    // for(let i = 0; i < cookieCards.length; i++) {
+    //     console.log(JSON.parse(cookieCards[i]).name)
+    // }
 
     return (
         <div className='cart-items-container'>
             <h1 className='cart-items-header'>Your Order</h1>
-            {cartFoodCards}
+            {names}
         </div>
     )
 }

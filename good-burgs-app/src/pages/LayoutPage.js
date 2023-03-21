@@ -1,7 +1,9 @@
+import Cookies from 'js-cookie'
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { Outlet, NavLink } from 'react-router-dom'
 import ShoppingBag from "/Users/jungwooseo/Desktop/GreatBurgs/good-burgs-app/src/ShoppingBag.png"
+
+const cartItems = Cookies.get("ids")
 
 const Layout = () => {
 

@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface FoodRepository extends JpaRepository<Food, Long> {
 
-    List<Food> findFoodByPointValueIsLessThan(int pointValue);
 }

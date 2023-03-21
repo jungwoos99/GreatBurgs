@@ -7,7 +7,10 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -20,7 +23,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private Integer userId;
     @NotBlank
     private String firstName;
     @NotBlank
@@ -35,6 +38,8 @@ public class User implements UserDetails {
     private Integer points = 0;
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    private LocalDate dateJoined;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
