@@ -100,6 +100,7 @@ export default function LoginForm() {
                     Cookies.set("token", res.data.token)
                     getUserInfo()
                     dispatch(setUserLoginStatus(true))
+                    alert("Successfully logged in!")
                     handleNaviagte()
                 }
             })
@@ -125,6 +126,8 @@ export default function LoginForm() {
                         - if status is 200 (successful login), redirect to home page
                         - else if status is 400 (unsucessful login), show error message that login info is incorrect
     */
+
+
 
     return (
         <>

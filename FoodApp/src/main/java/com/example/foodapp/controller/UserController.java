@@ -40,4 +40,16 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity deleteUserById(@PathVariable("id") Integer id) {
+        Optional<User> userInfo = userRepository.findById(id);
+
+        if(userInfo.isPresent()) {
+            userRepository.deleteById(id);
+            return new ResponseEntity(HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

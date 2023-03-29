@@ -1,22 +1,21 @@
 import Cookies from "js-cookie";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MenuBoard from '../components/MenuBoard'
 
 export default function Menu() {
-    const userId = Cookies.get("userId")
-    const userPoints = (Cookies.get("points"))
+    const userPoints = Cookies.get("points")
+    // const userId = Cookies.get("userId")
 
-    // if(Cookies.get(`cart${userId}`)) {
-    //     const array = Cookies.get(`cart${userId}`).split("$-$")
-    //     for(let i = 0; i < array.length - 1; i++) {
-    //         console.log(JSON.parse(array[i]))
-    //     }
-    // }
+    const [points, setPoints] = useState(userPoints)
+
+    useEffect(() => setPoints(Cookies.get("points")), [])
+
+    // Cookies.remove(`cart${userId}`)
 
     return (
         <div className="menu-page">
             <h1>GreatBurgs Menu Items</h1>
-            {Cookies.get("token") && <h2 className="menu-user-points">Available Points: {userPoints}</h2>}
+            {Cookies.get("token") && <h2 className="menu-user-points">Available Points: {points}</h2>}
             <MenuBoard/>
         </div>
     )

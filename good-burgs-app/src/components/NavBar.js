@@ -1,10 +1,16 @@
+import Cookies from 'js-cookie'
 import React from 'react'
 
 export default function NavBar() {
+    const userId = Cookies.get("userId")
+
+    function clearCart() {
+        Cookies.remove(`cart${userId}`)
+    }
+
     return (
         <nav className='navbar'>
-            <h1 className='navbar-heading'>GreatBurgs</h1>
-            {/* <img className='navbar-profile-img' alt='silhoutte of the bubble man' src='https://www.pngfind.com/pngs/m/676-6764065_default-profile-picture-transparent-hd-png-download.png'></img> */}
+            <h1 className='navbar-heading' onClick={clearCart} style={{cursor:"pointer"}}>GreatBurgs</h1>
         </nav>
     )
 }

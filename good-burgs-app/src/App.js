@@ -1,5 +1,6 @@
 import React from 'react'
 import NavBar from './components/NavBar'
+import Footer from './components/Footer';
 import "./App.css"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from './pages/LayoutPage';
@@ -12,17 +13,20 @@ import AccountPage from './pages/AccountPage';
 export default function App() {
 
   return (
-    <BrowserRouter>
-    <NavBar/>
-      <Routes>
-        <Route path='/' element={<Layout/>}>
-          <Route index element={<HomePage/>}/>
-          <Route path='menu' element={<MenuPage/>}/>
-          <Route path='account' element={<AccountPage/>}/>
-          <Route path='register' element={<RegisterPage/>}/>
-          <Route path='cart' element={<CartPage/>}/>
-        </Route>
-      </Routes>
+    <div className='body'>
+      <BrowserRouter>
+        <NavBar/>
+          <Routes>
+            <Route path='/' element={<Layout/>}>
+              <Route index element={<HomePage/>}/>
+              <Route path='menu' element={<MenuPage/>}/>
+              <Route path='account' element={<AccountPage/>}/>
+              <Route path='register' element={<RegisterPage/>}/>
+              <Route path='cart' element={<CartPage/>}/>
+            </Route>
+          </Routes>
+        <Footer/>
     </BrowserRouter>
+    </div>
   )
 }

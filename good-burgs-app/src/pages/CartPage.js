@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 import React  from "react";
 import CartItems from "../components/CartItems";
 
-export default function Cart() {
+export default function CartPage() {
 
   const cookieToken = Cookies.get("token")
 

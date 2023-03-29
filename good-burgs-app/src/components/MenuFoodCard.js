@@ -1,31 +1,28 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function MenuFoodCard(props) {
-    const dispatch = useDispatch()
     const userId = Cookies.get("userId")
-
+    const foodId = props.id
+    const foodPoints = props.pointValue
     const userInfo = useSelector(state => state.user)
-    const points = userInfo.userPoints
+    const [userPoints, setUserPoints] = useState(Cookies.get("points"))
     const [isAdded, setIsAdded] = useState(false)
     const userIsLoggedIn = Cookies.get("token")
     
     function checkIfCartContains() { 
-        let cartIds = []
         if(Cookies.get(`cart${userId}`)) {
-            Cookies.get(`cart${userId}`).split("$-$").filter(n => n).forEach((card) => {
-                cartIds.push(JSON.parse(card).id)
-            })
+            const cartIds = Cookies.get(`cart${userId}`).split(",").filter(n => n)
+            if(cartIds.includes(foodId.toString())) {
+                setIsAdded(true)
+            }
         }
-        if(cartIds.includes(props.id)) {
-            setIsAdded(true)
-        }
-        // console.log(cartIds)
     }
 
-    useEffect(() => checkIfCartContains())
+    //eslint-disable-next-line
+    useEffect(() => checkIfCartContains(), [])
 
     //converts integers to dollar amount format
     // let USDollar = new Intl.NumberFormat('en-US', {
@@ -34,57 +31,33 @@ export default function MenuFoodCard(props) {
     // });
 
     function addRemoveItem() {
-        const foodCard = {
-            id: props.id, 
-            img: props.imgUrl, 
-            desc: props.desc, 
-            price: props.price, 
-            name: props.name
-        }
-        updatePoints(props.pointValue)
+        updatePoints(foodPoints)
         if(!isAdded) {
             setIsAdded(true)
+            setUserPoints(prevUserPoints => prevUserPoints += foodPoints)
             if(Cookies.get(`cart${userId}`)) {
-                Cookies.set(`cart${userId}`, Cookies.get(`cart${userId}`) + JSON.stringify(foodCard) + "$-$")
+                const cookieCart = Cookies.get(`cart${userId}`)
+                Cookies.set(`cart${userId}`, cookieCart + foodId.toString() + ",")
             } else {
-                Cookies.set(`cart${userId}`, JSON.stringify(foodCard)+ "$-$")
+                Cookies.set(`cart${userId}`, foodId.toString() + ",")
             }
         } else if(isAdded) {
             setIsAdded(false)
-            let cookieCards = Cookies.get(`cart${userId}`).split("$-$").filter(n => n)
-            cookieCards.forEach((item) => {
-                if(JSON.parse(item).id === props.id) {
-                    cookieCards.splice(cookieCards.indexOf(item), 1)
-                    Cookies.set(`cart${userId}`, JSON.stringify(cookieCards))
-                } 
-                if(Cookies.get(`cart${userId}`) === []) { 
-                    Cookies.remove(`cart${userId}`)
+            setUserPoints(prevUserPoints => prevUserPoints -= foodPoints)
+            const cookieCart = Cookies.get(`cart${userId}`).split(",").filter(n => n)
+            // console.log(cookieCart)
+            cookieCart.forEach((item) => {
+                if(item === foodId.toString()) {
+                    cookieCart.splice(cookieCart.indexOf(item), 1)
+                    Cookies.set(`cart${userId}`, (cookieCart))
                 }
             })
-
-            /*
-
-                const items = Cookies.get(`cart${userId}`).split("$-$").filter(n => n)
-
-                items.forEach((item) => {
-                    if(JSON.parse(item).id === 1) {
-                        items.splice(items.indexOf(item), 1)
-                    }
-                    console.log("New Items: " + items)
-                })
-
-            */
-            
-            // if(cookieIds.includes(props.id + "")) {
-            //     let indexOfId = cookieIds.indexOf(props.id +"")
-            //     cookieIds.splice(indexOfId, 1)
-            // }
-            // Cookies.set(`cart${userId}`, cookieIds.toString())
         }
+        // console.log(Cookies.get(`cart${userId}`))
     }
 
-    function updatePoints(foodPoints) {
-        const updateUserPointsUrl = "http://localhost:8080/api/user/" + userId
+    function updatePoints() {
+        const updateUserPointsUrl = "http://localhost:8080/api/user/" + userId.toString()
         const pointValue = isAdded === true ? foodPoints : -(foodPoints)
         const userData = {
             firstName: Cookies.get("firstName"),
@@ -108,15 +81,9 @@ export default function MenuFoodCard(props) {
             })
     }
 
-    if(Cookies.get(`cart${userId}`)) {
-    console.log(Cookies.get(`cart${userId}`).split("$-$"))
-    }
-
-    // Cookies.remove(`cart${userId}`)
-
     return (
         <div className="menu-food-card">
-            {props.pointValue <= points && 
+            {props.pointValue <= userPoints && 
                 <div className="redeemable-label">
                     <h2>Redeemable</h2>
                 </div>
@@ -131,7 +98,7 @@ export default function MenuFoodCard(props) {
                     <h3>Remove from order</h3>
                 </div>}
             </div>
-            : <h3 className="food-card-no-token">Log in to start your order!</h3>}
+            : <h3 className="food-card-no-token" style={{cursor:"default"}}>Log in to start your order!</h3>}
         </div> 
     )
 }
