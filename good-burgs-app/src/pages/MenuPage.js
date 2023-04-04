@@ -4,13 +4,15 @@ import MenuBoard from '../components/MenuBoard'
 
 export default function Menu() {
     const userPoints = Cookies.get("points")
-    // const userId = Cookies.get("userId")
+    const userId = Cookies.get("userId")
 
     const [points, setPoints] = useState(userPoints)
 
     useEffect(() => setPoints(Cookies.get("points")), [])
 
     // Cookies.remove(`cart${userId}`)
+
+    console.log("Cart items menuPage: " + Cookies.get(`cart${userId}`))
 
     return (
         <div className="menu-page">

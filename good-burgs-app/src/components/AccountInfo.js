@@ -9,6 +9,10 @@ export default function AccountInfo() {
     const dispatch = useDispatch()
     const userPoints = Cookies.get("points")
     const [modalIsOpen, setModalIsOpen] = useState(false)
+    const dateJoined = Cookies.get("dateJoined").split("-")
+    const year = dateJoined[0]
+    const month = dateJoined[1]
+    const username = Cookies.get("firstName")
 
     function handleLogOut() {
         dispatch(setUserLoginStatus(false))
@@ -21,11 +25,6 @@ export default function AccountInfo() {
         Cookies.remove("userId")
         dispatch(setUserPoints(0))
     }
-
-    const dateJoined = Cookies.get("dateJoined").split("-")
-    const month = dateJoined[1]
-    const year = dateJoined[0]
-    const username = Cookies.get("firstName")
 
     function handleDeleteAccount() {
         const userId = Cookies.get("userId")

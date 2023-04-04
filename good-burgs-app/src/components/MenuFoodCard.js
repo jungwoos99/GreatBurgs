@@ -37,9 +37,9 @@ export default function MenuFoodCard(props) {
             setUserPoints(prevUserPoints => prevUserPoints += foodPoints)
             if(Cookies.get(`cart${userId}`)) {
                 const cookieCart = Cookies.get(`cart${userId}`)
-                Cookies.set(`cart${userId}`, cookieCart + foodId.toString() + ",")
+                Cookies.set(`cart${userId}`, cookieCart + (foodId + ","))
             } else {
-                Cookies.set(`cart${userId}`, foodId.toString() + ",")
+                Cookies.set(`cart${userId}`, (foodId+ ","))
             }
         } else if(isAdded) {
             setIsAdded(false)
@@ -83,11 +83,6 @@ export default function MenuFoodCard(props) {
 
     return (
         <div className="menu-food-card">
-            {props.pointValue <= userPoints && 
-                <div className="redeemable-label">
-                    <h2>Redeemable</h2>
-                </div>
-            }
             <img className="food-card-img" src={props.imgUrl} alt={props.desc}></img>
             <h2 className="food-card-name">{props.name}</h2>
             {userIsLoggedIn ? <div className="food-card-purchase-options">

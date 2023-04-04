@@ -3,9 +3,10 @@ import React from 'react'
 import { Outlet, NavLink } from 'react-router-dom'
 import ShoppingBag from "/Users/jungwooseo/Desktop/GreatBurgs/good-burgs-app/src/ShoppingBag.png"
 
-const cartItems = Cookies.get("ids")
+export default function Layout() {
 
-const Layout = () => {
+    const userId = Cookies.get("userId")
+    const cookieCart = Cookies.get(`cart${userId}`).split(",") || ""
 
     return (
         <>
@@ -23,11 +24,14 @@ const Layout = () => {
                     <li style={{marginLeft: "auto", marginRight: "2rem", marginTop: "2rem"}}>
                         <NavLink to={"/cart"}>
                             <div>
-                                {/* {cartQunatity > 0 && 
+                                {
+                                    cookieCart.length > 0 && 
                                     <div className='cart-quantity'>
-                                        <h4>{cartQunatity}</h4>
+                                        <h4>
+                                            {cookieCart.length}
+                                        </h4>
                                     </div>
-                                } */}
+                                }
                                 <img src={ShoppingBag} style={{height:"2rem", textDecoration:"none"}} alt="clipart of shopping bag" className='shopping-bag-img'></img>
                             </div>
                         </NavLink>
@@ -39,5 +43,3 @@ const Layout = () => {
         </>
     )
 }
-
-export default Layout

@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  min-width: 100vw;
 }
 
 /* HEADER */
@@ -300,26 +299,28 @@
 }
 
 .cart-items-container {
-  border: .4rem solid black;
-  border-radius: 5px;
+  /* border: .4rem solid black; */
+  border-radius: 8px;
   width: 80%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-bottom: 5rem;
+  align-items: center;
 }
 
 .cart-items-header {
-  text-decoration: underline;
-  margin-left: .75rem;
-  margin-top: .75rem;
+  text-align: center;
 }
 
 .cart-food-card {
   display: flex;
-  border: .25rem solid black;
+  border: .2rem solid black;
   margin: .5rem;
   align-items: center;
+  border-radius: 8px;
+  max-height: 13rem;
+  min-width: 60rem;
 }
 
 .cart-food-card-img {
