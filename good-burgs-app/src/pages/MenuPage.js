@@ -1,10 +1,13 @@
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import MenuBoard from '../components/MenuBoard'
+import { useDispatch, useSelector } from "react-redux";
+import { setCartTotal } from "../features/cart/cartSlice";
 
 export default function Menu() {
     const userPoints = Cookies.get("points")
     const userId = Cookies.get("userId")
+    const dispatch = useDispatch()
 
     const [points, setPoints] = useState(userPoints)
 
@@ -17,7 +20,7 @@ export default function Menu() {
     return (
         <div className="menu-page">
             <h1>GreatBurgs Menu Items</h1>
-            {Cookies.get("token") && <h2 className="menu-user-points">Available Points: {points}</h2>}
+            {/* {Cookies.get("token") && <h2 className="menu-user-points">Available Points: {points}</h2>} */}
             <MenuBoard/>
         </div>
     )

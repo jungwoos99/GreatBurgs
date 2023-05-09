@@ -1,21 +1,24 @@
 import React, { useState } from 'react'
-import { setUserLoginStatus, setUserPoints } from '../features/user/userSlice'
+import { setUserPoints } from '../features/user/userSlice'
 import { useDispatch } from 'react-redux'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import ReactModal from 'react-modal'
+import { useNavigate } from 'react-router-dom'
 
 export default function AccountInfo() {
     const dispatch = useDispatch()
-    const userPoints = Cookies.get("points")
+    const navigate = useNavigate()
+    const userBalance = Cookies.get("balance")
     const [modalIsOpen, setModalIsOpen] = useState(false)
-    const dateJoined = Cookies.get("dateJoined").split("-")
-    const year = dateJoined[0]
-    const month = dateJoined[1]
+    const dateJoined = Cookies.get("dateJoined") && Cookies.get("dateJoined").split("-")
+    const year = dateJoined && dateJoined[0]
+    const month = dateJoined && dateJoined[1]
     const username = Cookies.get("firstName")
+    const userId = Cookies.get("userId")
 
     function handleLogOut() {
-        dispatch(setUserLoginStatus(false))
+        Cookies.remove("token")
         Cookies.remove("email")
         Cookies.remove("password")
         Cookies.remove("token")
@@ -23,6 +26,12 @@ export default function AccountInfo() {
         Cookies.remove("dateJoined")
         Cookies.remove("role")
         Cookies.remove("userId")
+        Cookies.remove("userId")
+        Cookies.remove("lastName")
+        Cookies.remove("balance")
+        Cookies.remove("email")
+        // Cookies.remove(`cartTotal${userId}`)
+        handleNavigate()
         dispatch(setUserPoints(0))
     }
 
@@ -39,6 +48,11 @@ export default function AccountInfo() {
         handleLogOut()
     }
 
+    function handleNavigate() {
+        const homePageUrl = "../"
+        navigate(homePageUrl)
+    }
+
     return (
         <div className='account-info-div'>
             <ReactModal isOpen={modalIsOpen} className="account-delete-modal" ariaHideApp={false}>
@@ -52,7 +66,7 @@ export default function AccountInfo() {
                 </div>
             </ReactModal>
             <h1>Welcome, {username}</h1>
-            <h2>Your Available Points: {userPoints}</h2>
+            <h2>Your Available Points: {userBalance}</h2>
             <h3>GreatBurgs member since: {month}/ {year}</h3>
             <div onClick={handleLogOut} style={{cursor:"pointer"}}>Logout</div>
             <div 

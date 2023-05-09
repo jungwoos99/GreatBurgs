@@ -1,12 +1,31 @@
 import Cookies from 'js-cookie'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Outlet, NavLink } from 'react-router-dom'
 import ShoppingBag from "/Users/jungwooseo/Desktop/GreatBurgs/good-burgs-app/src/ShoppingBag.png"
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { initializeFoodIds } from '../features/menu/menuSlice'
 
 export default function Layout() {
 
+    const dispatch = useDispatch()
+    const cartQuantity = useSelector(state => state.cart).cartQuantity
     const userId = Cookies.get("userId")
-    const cookieCart = Cookies.get(`cart${userId}`).split(",") || ""
+    const [cookieIds, setCookieIds] = useState(Cookies.get(`cart${userId}`))
+    // const cart = Cookies.get(`cart${userId}`).split(",").filter(n => n).length || []
+
+    useEffect(()=> setCookieIds(Cookies.get(`cart${userId}`)), [Cookies.get(`cart${userId}`)])
+
+    function setCartQuantity() {
+        dispatch(initializeFoodIds(Cookies.get(`cart${userId}`)))
+    }
+
+    useEffect(() => {
+        window.addEventListener("beforeunload", setCartQuantity)
+        return() => {
+            window.removeEventListener("beforeunload", console.log("hello"))
+        }
+    })
 
     return (
         <>
@@ -25,10 +44,10 @@ export default function Layout() {
                         <NavLink to={"/cart"}>
                             <div>
                                 {
-                                    cookieCart.length > 0 && 
+                                    cookieIds && 
                                     <div className='cart-quantity'>
                                         <h4>
-                                            {cookieCart.length}
+                                            {cartQuantity}
                                         </h4>
                                     </div>
                                 }

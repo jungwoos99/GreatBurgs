@@ -1,11 +1,18 @@
 import Cookies from 'js-cookie'
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { resetCartTotal } from '../features/cart/cartSlice'
 
 export default function NavBar() {
+    const dispatch = useDispatch()
     const userId = Cookies.get("userId")
+    const cookieCart = Cookies.get(`cart${userId}`)
+    console.log("NAVBAR")
 
     function clearCart() {
+        Cookies.set(`cartTotal${userId}`, 0)
         Cookies.remove(`cart${userId}`)
+        dispatch(resetCartTotal())
     }
 
     return (

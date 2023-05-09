@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import Cookies from 'js-cookie'
-import { setUserLoginStatus, setUserPoints, setUserName } from '../features/user/userSlice'
+import { setUserName } from '../features/user/userSlice'
 import axios from 'axios'
 
 export default function LoginForm() {
@@ -49,13 +49,24 @@ export default function LoginForm() {
 
     function setUserInfo(data) {
         if(userInfo.firstName !== "") {
+
+            Cookies.remove("userId")
+            Cookies.remove("role")
+            Cookies.remove("firstName")
+            Cookies.remove("lastName")
+            Cookies.remove("balance")
+            Cookies.remove("dateJoined")
+            Cookies.remove("email")
+            Cookies.remove("password")
+            
+
             Cookies.set("userId", data.userId)
             Cookies.set("role", data.role)
             Cookies.set("firstName", data.firstName)
             Cookies.set("lastName", data.lastName)
-            Cookies.set("points", data.points)
+            Cookies.set("balance", data.balance)
             Cookies.set("dateJoined", data.dateJoined)
-            dispatch(setUserPoints(data.points))
+            // dispatch(setUserPoints(data.balance))
             dispatch(setUserName(data.firstName))
         }
     }
@@ -67,16 +78,26 @@ export default function LoginForm() {
                 status: true,
                 message: "Please fill out both fields."
             })
-        } else {
+        }else {
             checkUserExists()
         }
     }
+
+      function validateEmail(email) {
+        return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+      }
+
 
     function checkUserExists() {
         const loginEmail = loginForm.email
         const fetchURL = "http://localhost:8080/api/user?email=" + loginEmail
 
-        fetch(fetchURL)
+        if(validateEmail(loginForm.email)) {
+            fetch(fetchURL)
             .then((res) => {
                 if(res.ok) {
                     handleLogin()
@@ -87,6 +108,12 @@ export default function LoginForm() {
                     })
                 }
             })
+        } else {
+            setBadCredentials({
+                status: true,
+                message: "Invalid email address format."
+            })
+        }
     }
 
     function handleLogin() {
@@ -99,9 +126,8 @@ export default function LoginForm() {
                     Cookies.set("password", loginData.password)
                     Cookies.set("token", res.data.token)
                     getUserInfo()
-                    dispatch(setUserLoginStatus(true))
                     alert("Successfully logged in!")
-                    // handleNaviagte()
+                    handleNaviagte()
                 }
             })
             .catch((error) => {

@@ -7,6 +7,7 @@ import AccountInfo from "../components/AccountInfo";
 
 export default function AccountPage() {
     const userInfo = useSelector(state => state.user)
+    const userToken = Cookies.get("token")
     const dispatch = useDispatch()
 
     useEffect(()=> {
@@ -24,12 +25,12 @@ export default function AccountPage() {
         <div className="login-page-wrapper" >
 
             {/*Shows a login form when user is not logged in*/}
-            {!userInfo.loggedIn && 
+            {!userToken && 
                 <LoginForm/>
             }
 
             {/*Account details shown if user is logged in*/}
-            {userInfo.loggedIn && 
+            {userToken && 
                 <AccountInfo/>
             }
 
