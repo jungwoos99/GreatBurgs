@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -31,7 +32,7 @@ public class AuthenticationService {
                 .lastName(registerRequest.getLastName())
                 .email(registerRequest.getEmail())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
-                .points(0)
+                .balance(BigDecimal.valueOf(0))
                 .role(Role.USER)
                 .dateJoined((java.time.LocalDate.now()))
                 .build();

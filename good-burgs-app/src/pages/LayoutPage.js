@@ -16,17 +16,6 @@ export default function Layout() {
 
     useEffect(()=> setCookieIds(Cookies.get(`cart${userId}`)), [Cookies.get(`cart${userId}`)])
 
-    function setCartQuantity() {
-        dispatch(initializeFoodIds(Cookies.get(`cart${userId}`)))
-    }
-
-    useEffect(() => {
-        window.addEventListener("beforeunload", setCartQuantity)
-        return() => {
-            window.removeEventListener("beforeunload", console.log("hello"))
-        }
-    })
-
     return (
         <>
             <nav className='link-nav'>
@@ -43,14 +32,6 @@ export default function Layout() {
                     <li style={{marginLeft: "auto", marginRight: "2rem", marginTop: "2rem"}}>
                         <NavLink to={"/cart"}>
                             <div>
-                                {
-                                    cookieIds && 
-                                    <div className='cart-quantity'>
-                                        <h4>
-                                            {cartQuantity}
-                                        </h4>
-                                    </div>
-                                }
                                 <img src={ShoppingBag} style={{height:"2rem", textDecoration:"none"}} alt="clipart of shopping bag" className='shopping-bag-img'></img>
                             </div>
                         </NavLink>

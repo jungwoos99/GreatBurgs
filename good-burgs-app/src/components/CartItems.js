@@ -116,6 +116,26 @@ export default function CartItems() {
     //eslint-disable-next-line
     useEffect(()=> fillCartCards, [foodIdsInStore])
 
+    useEffect(()=> getCartData(), [])
+
+
+    function getCartData() {
+        const cartDataUrl = `http://localhost:8080/api/cart/${userId}`
+        const foodDataUrl = "http://localhost:8080/api/food/"
+
+        fetch(cartDataUrl)
+            .then(res => res.json())
+            .then(data => data.cartItems.forEach((item) => {
+                fetch(foodDataUrl + item)
+                    .then(res => res.json())
+                    .then(data => console.log(data))
+            }))
+    }
+
+
+
+
+
     return (
         <div className='cart-items-container'> 
             <h1 className='cart-items-header' onClick={()=> fillStoreInfo()}>Your Order</h1>

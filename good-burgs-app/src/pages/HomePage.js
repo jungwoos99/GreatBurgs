@@ -1,9 +1,10 @@
 import Cookies from "js-cookie";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { initializeFoodIds } from "../features/menu/menuSlice";
 import { setCartTotal } from "../features/cart/cartSlice";
+import axios from "axios";
 
 export default function HomePage() {
     const naviagte = useNavigate()
@@ -23,6 +24,38 @@ export default function HomePage() {
 
     dispatch(initializeFoodIds(cookieCart))
     dispatch(setCartTotal(`cartTotal${userId}`))
+
+
+    /* */
+    function initalizeNewCart() {
+        // console.log("id: " + userId)
+        if(Cookies.get("token")) {
+            const checkIfUserCartExistsUrl = `http://localhost:8080/api/cart/${userId}`
+            const createNewCartUrl = "http://localhost:8080/api/cart"
+            const fetchCartInfoUrl = `http://localhost:8080/api/cart/${userId}`
+            // console.log("checking: " + checkIfUserCartExistsUrl)
+    
+            const cartInfoObject = {
+                cartOwnerId: userId
+            }
+
+            fetch(checkIfUserCartExistsUrl)
+                .then(res => res.json())
+                .then(data => console.log(data))
+                .catch((error) => {
+                    axios.post(createNewCartUrl, cartInfoObject)
+                    console.log("NEW CART")
+                })
+
+        } else {
+            console.log("No user currently logged in")
+        }
+    }
+    /* */
+
+    useEffect(() => {
+        window.addEventListener("beforeunload", initalizeNewCart())
+    })
 
     return (
         <div className="home-wrapper">

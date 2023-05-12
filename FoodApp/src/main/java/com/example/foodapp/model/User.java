@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
@@ -22,7 +23,7 @@ import java.util.List;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userId;
     @NotBlank
     private String firstName;
@@ -35,10 +36,9 @@ public class User implements UserDetails {
     @NotBlank
     private String password;
     @Builder.Default
-    private Integer points = 0;
+    private BigDecimal balance = BigDecimal.valueOf(0);
     @Enumerated(EnumType.STRING)
     private Role role;
-
     private LocalDate dateJoined;
 
     @Override

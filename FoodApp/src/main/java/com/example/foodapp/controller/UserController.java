@@ -29,12 +29,12 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<User> updateUserPoints(@PathVariable("id") Integer id, @RequestBody User user) {
+    public ResponseEntity<User> updateUserBalance(@PathVariable("id") Integer id, @RequestBody User user) {
         Optional<User> userInfo = userRepository.findById(id);
 
         if(userInfo.isPresent()) {
             User updatedUser = userInfo.get();
-            updatedUser.setPoints(updatedUser.getPoints() + user.getPoints());
+            updatedUser.setBalance(updatedUser.getBalance().add(user.getBalance()));
             return new ResponseEntity<>(userRepository.save(updatedUser), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
