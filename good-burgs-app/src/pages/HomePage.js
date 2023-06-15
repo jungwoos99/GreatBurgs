@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { initializeFoodIds } from "../features/menu/menuSlice";
-import { setCartTotal } from "../features/cart/cartSlice";
 import axios from "axios";
 
 export default function HomePage() {
@@ -23,8 +22,6 @@ export default function HomePage() {
     }
 
     dispatch(initializeFoodIds(cookieCart))
-    dispatch(setCartTotal(`cartTotal${userId}`))
-
 
     /* */
     function initalizeNewCart() {
@@ -55,6 +52,9 @@ export default function HomePage() {
 
     useEffect(() => {
         window.addEventListener("beforeunload", initalizeNewCart())
+        return() => {
+            window.removeEventListener("beforeunload", console.log("hello"))
+        }
     })
 
     return (

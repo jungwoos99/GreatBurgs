@@ -1,13 +1,16 @@
+import Cookies from 'js-cookie'
 import React, { useState } from 'react'
+import axios from 'axios'
 
 export default function CartFoodCard(props) {
 
-    const { id, imgUrl, desc, name, removeCartItem } = props
+    const { id, imgUrl, desc, name, price, removeItem } = props
     const [isRemoved, setIsRemoved] = useState(false)
+    const userId = Cookies.get("userId")
 
-    function removeItem() {
-        removeCartItem(id)
-        setIsRemoved(true)
+    function hideItem() {
+        removeItem(id, price)
+        // setIsRemoved(true)
     }
 
     return (
@@ -17,7 +20,7 @@ export default function CartFoodCard(props) {
                 <h3 style={{marginBottom: ".25rem"}}>{name}</h3>
                 <h4 style={{color:"gray", margin: "0"}}>{desc}</h4>
             </div>
-            <div className='cart-food-card-remove-button' onClick={removeItem}>
+            <div className='cart-food-card-remove-button' onClick={()=>hideItem()}>
                 <h3>x</h3>
             </div>
         </div>

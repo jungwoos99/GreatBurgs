@@ -106,7 +106,7 @@ export default function Registerform() {
 
     return (
         <>
-            <ReactModal isOpen={modalIsOpen} className="register-modal">
+            <ReactModal isOpen={modalIsOpen} className="register-modal" ariaHideApp={false}>
                 <h3>You can now login with your email and your password!</h3>
             </ReactModal>
             <h1 style={{marginBottom:".2rem", padding: "0"}}>Register An Account</h1>

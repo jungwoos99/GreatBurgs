@@ -9,12 +9,29 @@ import { initializeFoodIds } from '../features/menu/menuSlice'
 export default function Layout() {
 
     const dispatch = useDispatch()
-    const cartQuantity = useSelector(state => state.cart).cartQuantity
+    const [cartQuantity, setCartQuantity] = useState(0)
     const userId = Cookies.get("userId")
     const [cookieIds, setCookieIds] = useState(Cookies.get(`cart${userId}`))
+    // const cartChanged = useSelector(state => state.cart).cartChange
     // const cart = Cookies.get(`cart${userId}`).split(",").filter(n => n).length || []
 
     useEffect(()=> setCookieIds(Cookies.get(`cart${userId}`)), [Cookies.get(`cart${userId}`)])
+
+    // function retrieveCartQuantity() {
+    //     const getCartQuantityUrl = `http://localhost:8080/api/cart/${userId}`
+    //     fetch(getCartQuantityUrl)
+    //         .then(res => res.json())
+    //         .then(data => setCartQuantity(data.cartItems.length))
+    // }
+
+    // useEffect(() => {
+    //     window.addEventListener("beforeunload", retrieveCartQuantity())
+    //     return(() => {
+    //         window.removeEventListener("beforeunload", console.log("hello"))
+    //     })
+    // }, [])
+
+    // console.log(cartChanged)
 
     return (
         <>
@@ -32,6 +49,7 @@ export default function Layout() {
                     <li style={{marginLeft: "auto", marginRight: "2rem", marginTop: "2rem"}}>
                         <NavLink to={"/cart"}>
                             <div>
+                                {cartQuantity > 0 && <h3 className='cart-quantity'>{cartQuantity}</h3>}
                                 <img src={ShoppingBag} style={{height:"2rem", textDecoration:"none"}} alt="clipart of shopping bag" className='shopping-bag-img'></img>
                             </div>
                         </NavLink>

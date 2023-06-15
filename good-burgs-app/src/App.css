@@ -281,7 +281,7 @@
   display: flex;
   position: absolute;
   color: white;
-  transform: translateX(1.3rem) translateY(1.5rem);
+  transform: translateX(1.3rem) translateY(.45rem);
   background-color: red;
   border-radius: 50%;
   height: 1.5rem;
